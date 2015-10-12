@@ -1,5 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 
-urlpatterns = patterns('spot.apps.classroom.views',
-    url(r'^$', 'show_home', name='show_home'),
-)
+from views import *
+
+urlpatterns = [
+    url(r'^$', list_classrooms, name='list_classrooms'),
+    url(r'^(\w+)/$', show_classroom, name='show_classroom'),
+]

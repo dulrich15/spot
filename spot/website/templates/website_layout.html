@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <title>{% block meta_title %}( default title ){% endblock %}</title>    
+    <link rel="stylesheet" href="{{ STATIC_URL }}website.css" />
+    <script src="{{ STATIC_URL }}website.js"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% block body %}
+<header>
+    {% block header %}{% endblock %}
+</header>
+
+{% if messages %}
+<ul id="site_messages" onClick="Toggle('site_messages')">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div id="main_content">
+    {% block main_content %}{% endblock %}
+</div>
+
+<div id="side_content">
+    {% block side_content %}{% endblock %}
+</div>
+
+<footer>
+    {% block footer %}{% endblock %}
+</footer>
+{% endblock %}
+</body>
+</html>

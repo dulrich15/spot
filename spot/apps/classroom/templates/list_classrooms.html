@@ -1,0 +1,26 @@
+{% extends "website_layout.html" %}
+
+{% block meta_title %}Classroom List{% endblock %}
+
+{% block main_content %}
+
+<h1>Classroom list</h1>
+{% if user.is_staff %}
+<ul>
+    {% for classroom in classrooms %}
+    <li><a href="{% url 'show_classroom' classroom.slug %}">{{ classroom.title }} ({{ classroom.slug }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+{% if active_classrooms|length > 0 %}
+<ul>
+    {% for classroom in active_classrooms %}
+    <li><a href="{% url 'show_classroom' classroom.slug %}">{{ classroom.title }} ({{ classroom.slug }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Ain't none here :(</p>
+{% endif %}
+{% endif %}
+
+{% endblock %}

@@ -37,7 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'spot.apps.classroom',
-    'spot.apps.gradebook',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,7 +52,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'spot.urls'
 
 WSGI_APPLICATION = 'spot.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -83,3 +81,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'spot/website/templates'),
+)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'spot/website/static'),
+)

@@ -1,8 +1,12 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include
+from django.conf.urls import url
 from django.contrib import admin
 
-urlpatterns = patterns('',
+from django.views.generic.base import TemplateView
+# from django.views.generic.base import RedirectView
+
+urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^grades', include('spot.apps.gradebook.urls')),
+    url(r'^index/$', TemplateView.as_view(template_name='website_index.html')),
     url(r'^', include('spot.apps.classroom.urls')),
-)
+]
