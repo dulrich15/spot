@@ -2,9 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'spot.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^grades', include('spot.apps.gradebook.urls')),
+    url(r'^', include('spot.apps.classroom.urls')),
 )
