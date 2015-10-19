@@ -17,14 +17,6 @@ from spot.apps.core.config import LATEX_CMD
 
 from directives import LATEX_WORK_PATH
 
-def get_latex_path(filename):
-    filename = filename.split(os.path.sep)
-    for i in range(len(filename)):
-        if ' ' in filename[i]:
-            filename[i] = '"%s"' % filename[i]
-    filename = '/'.join(filename)
-    return filename
-
 def make_pdf(latex, repeat=1):
 
     curdir = os.getcwd()

@@ -24,6 +24,9 @@ from spot.apps.core.config import GS_CMD
 from spot.apps.core.config import PYTHON_CMD
 from spot.apps.core.config import FFMPEG_CMD
 
+from spot.apps.core.config import IMAGE_URL
+from spot.apps.core.config import IMAGE_PATH
+
 from spot.apps.core.config import SYSGEN_URL
 from spot.apps.core.config import SYSGEN_PATH
 
@@ -35,6 +38,14 @@ WORK_PATH = os.path.join(os.path.dirname(os.path.abspath( __file__ )), WORK_PATH
 
 LATEX_WORK_PATH = os.path.join(WORK_PATH, 'latex', '_')
 MATHPLOTLIB_WORK_PATH = os.path.join(WORK_PATH, 'mathplotlib', '_')
+
+def get_latex_path(filename):
+    filename = filename.split(os.path.sep)
+    for i in range(len(filename)):
+        if ' ' in filename[i]:
+            filename[i] = '"%s"' % filename[i]
+    filename = '/'.join(filename)
+    return filename
 
 FIG_TEMPLATE = {
 'default' : r'''
@@ -245,7 +256,7 @@ class fig_directive(rst.Directive):
 
             if str(image).rsplit('.',1)[1] in ['png','jpg','gif','pdf']:
 
-                check_path = os.path.join(SYSGEN_PATH, image)
+                check_path = os.path.join(IMAGE_PATH, image)
                 check_path = os.path.normpath(check_path)
 
                 if not os.path.exists(check_path):
@@ -281,7 +292,7 @@ class fig_directive(rst.Directive):
         if 'image' in self.options.keys():
             image = self.options['image']
 
-            check_path = os.path.join(SYSGEN_PATH, image)
+            check_path = os.path.join(IMAGE_PATH, image)
             check_path = os.path.normpath(check_path)
 
             if os.path.exists(check_path):
@@ -302,7 +313,7 @@ class fig_directive(rst.Directive):
                     # figtext += '<div id="fig:{0}" class="my-docutils fig {1}" style="width:{2}px;">\n'
                 figtext = figtext.format(label, position, fig_width)
 
-                html_path = posixpath.join(SYSGEN_URL, image)
+                html_path = posixpath.join(IMAGE_URL, image)
                 figtext += '<a href="{0}"><img width="{1}px" src="{0}"></a>\n'.format(html_path, fig_width)
                 # figtext += '<a href="{0}"><img src="{0}"></a>\n'.format(html_path, fig_width)
 

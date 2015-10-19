@@ -11,8 +11,7 @@ urlpatterns = [
     url(r'^root/$', views.show_page, name='root_page'),
 
     url(r'^show(?P<url>(/[\w\-/]*))$', views.show_page, name='show_page'),
-    url(r'^edit(?P<url>(/[\w\-/]*))$', views.edit_page, name='edit_page'),
     url(r'^ppdf(?P<url>(/[\w\-/]*))$', views.ppdf_page, name='ppdf_page'),
-
+    url(r'^edit(?P<url>(/[\w\-/]*))$', views.edit_page, name='edit_page'),
     url(r'^post/$', views.post_page, name='post_page'),
 ]

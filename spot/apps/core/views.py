@@ -9,8 +9,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.template import Context
 from django.template import RequestContext
 from django.template import loader
+from django.template.defaultfilters import slugify
 
 from templatetags.docutils_extensions.utils import make_pdf
 
@@ -136,7 +138,7 @@ def ppdf_page(request, url=''):
     pdfname = make_pdf(latex, repeat=2)
     pdffile = open(pdfname, 'rb')
     outfile = '%s.pdf' % slugify(page.title)
-    response = HttpResponse(pdffile.read(), mimetype='application/pdf')
+    response = HttpResponse(pdffile.read(), content_type='application/pdf')
     # response['Content-disposition'] = 'attachment; filename=%s' % outfile
 
     return response
