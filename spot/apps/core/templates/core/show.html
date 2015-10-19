@@ -55,8 +55,8 @@ $(document).keydown(function(e) {
 <div{% if user.is_staff %} ondblclick="location.href='{% url 'edit_page' page %}';"{% endif %}>
     {% if page.author or page.date %}
     <ul id="docinfo">
-        {% if page.author %}<li>Author: {{ page.author|rst2html_inline }}</li>{% endif %}
-        {% if page.date %}<li>Date: {{ page.date|date:"D d M Y" }}</li>{% endif %}
+        {% if page.author %}<li>Page Author: {{ page.author|rst2html_inline }}</li>{% endif %}
+        {% if page.date %}<li>Page Date: {{ page.date|date:"D d M Y" }}</li>{% endif %}
     </ul>
     {% endif %}
     

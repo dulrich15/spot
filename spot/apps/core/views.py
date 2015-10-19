@@ -48,16 +48,15 @@ def core_logout(request):
 
 
 def show_page(request, url='/'):            
-    # try:    
-    if 1==1:
+    try:    
         page = Page.objects.get(url=url)
         page.update()
         template = 'core/show.html'
-    # except:
-    #     if request.user.is_authenticated:
-    #         return redirect('edit_page', url)
-    #     else:
-    #         template = 'core/404.html'
+    except:
+        if request.user.is_authenticated:
+            return redirect('edit_page', url)
+        else:
+            template = 'core/404.html'
 
     context = {
         'page' : page,
