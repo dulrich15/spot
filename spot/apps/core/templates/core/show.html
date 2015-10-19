@@ -34,6 +34,15 @@ $(document).keydown(function(e) {
         {% endif %}
         e.preventDefault();
     }
+
+    // 37 left 38 up 39 right 40 down 
+    // 188 comma 190 period 191 forward slash
+    
+    if (e.ctrlKey && keycode == '38')
+    {
+        location.href='{% url 'show_page' page.parent %}';
+        e.preventDefault();
+    }
 });
 {% endblock %}
 
