@@ -60,4 +60,4 @@ target/
 _/*
 spot/content/*
 *.sqlite3
-
+**temp.*

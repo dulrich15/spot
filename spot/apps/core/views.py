@@ -12,8 +12,6 @@ from django.shortcuts import redirect
 from django.template import RequestContext
 from django.template import loader
 
-from config import page_path
-
 from templatetags.docutils_extensions.utils import make_pdf
 
 from models import *

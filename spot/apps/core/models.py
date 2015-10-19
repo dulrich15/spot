@@ -8,8 +8,9 @@ import os
 
 from django.db.models import *
 
-from config import page_path
-from templatetags.docutils_extensions.utils import rst2xml
+from config import PAGE_PATH
+
+from templatetags.docutils_extensions.writers import rst2xml
 
 class Classroom(Model):
     slug = SlugField(max_length=64,unique=True)
@@ -90,9 +91,9 @@ class Page(Model):
     
     @property
     def filepath(self):
-        filepath = os.path.abspath(os.path.join(page_path, self.url[1:]))
+        filepath = os.path.abspath(os.path.join(PAGE_PATH, self.url[1:]))
         if os.path.isdir(filepath):
-            filepath = os.path.abspath(os.path.join(page_path, self.url[1:], '_'))
+            filepath = os.path.abspath(os.path.join(PAGE_PATH, self.url[1:], '_'))
         return filepath
         
     def update(self, force_update=False): # check file system for updated version
@@ -177,7 +178,7 @@ class Page(Model):
             else: # the page doesn't exist --- before we build it, we need to
                   # make sure the directory structure is compatible
                 dirs = self.url.split('/')
-                fp = page_path
+                fp = PAGE_PATH
                 for d in dirs[:-1]: # these directories should all exist
                     fp = os.path.join(fp, d)
                     if os.path.isfile(fp): # then we need to prepare to push this content into a new directory

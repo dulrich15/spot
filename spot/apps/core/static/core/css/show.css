@@ -409,6 +409,17 @@ pre {
     text-align:center;
 }
 
+.my-docutils-error {
+    margin:1em 0;
+    padding:0 1em;
+    border:1px dotted red;
+}
+.my-docutils-error p {
+    font-weight:bold;
+}
+.my-docutils-error pre {
+    background:white;
+}
 
 
 @media print {
