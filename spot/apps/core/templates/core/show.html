@@ -1,0 +1,134 @@
+{% extends "core/layout.html" %}
+{% load restructuredtext_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
+{% endblock %}
+
+{% block extra_script %}
+$(document).keydown(function(e) {
+    var keycode = e.which || e.keyCode;
+    var key = String.fromCharCode(keycode).toLowerCase()
+
+    {% if user.is_authenticated %}
+    if (key == 'e' && e.ctrlKey)
+    {
+        location.href='{% url 'edit_page' page %}';
+        e.preventDefault();
+    }
+    {% endif %}
+    if (key == 'p' && e.ctrlKey)
+    {
+        /* window.print() */
+        location.href='{% url 'ppdf_page' page %}';
+        e.preventDefault();
+    }
+    if (key == 'l' && e.ctrlKey)
+    {
+        {% if user.is_authenticated %}
+        location.href='{% url 'core_logout' %}?next={% url 'show_page' page %}';
+        {% else %}
+        location.href='{% url 'core_login' %}?next={% url 'show_page' page %}';
+        {% endif %}
+        e.preventDefault();
+    }
+});
+{% endblock %}
+
+{% block header %}
+<h1 id="title">{{ page.classroom.title|rst2html_inline }}</h1>
+{% if page.classroom.subtitle %}<p id="subtitle">{{ page.classroom.subtitle|rst2html_inline }}</p>{% endif %}    
+{% if page.children or page.series or page.siblings or page.parent %}
+{% if page.content %}
+<p class="full-hide"><a class="block-link noprint" href="#related-pages">Skip down to page navigation</a></p>
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block main_content %}
+{% if page.classroom.home_page != page %}
+<h1 id="title">{{ page.title|rst2html_inline }}</h1>
+{% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
+{% endif %}
+<div{% if user.is_staff %} ondblclick="location.href='{% url 'edit_page' page %}';"{% endif %}>
+    {% if page.author or page.date %}
+    <ul id="docinfo">
+        {% if page.author %}<li>Author: {{ page.author|rst2html_inline }}</li>{% endif %}
+        {% if page.date %}<li>Date: {{ page.date|date:"D d M Y" }}</li>{% endif %}
+    </ul>
+    {% endif %}
+    
+    {% if page.content %} 
+    <div id="content">
+    {{ page.content|rst2html }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block side_content %}
+<a name="related-pages"></a>
+
+{% if page.children or page.series or page.siblings or page.parent %}
+<div class="related-pages noprint">
+    {% if page.children %}
+    <p>Down to&hellip;</p>
+    <ul>
+        {% for page in page.children %}
+        <li><a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if page.series %}
+    <p>In this series&hellip;</p>
+    <ul>
+        {% for series_page in page.series %}
+        {% if series_page.pg == page.pg %}
+        <li><span>{{ series_page.title|rst2html_inline }}</span></li>
+        {% else %}
+        <li><a href="{% url 'show_page' series_page %}">{{ series_page.title|rst2html_inline }}</a></li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if not page.children and not page.series and page.siblings %}
+    <p>Related pages</p>
+    <ul>
+        {% for sibling_page in page.siblings %}
+        <li><a href="{% url 'show_page' sibling_page %}">{{ sibling_page.title|rst2html_inline }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if page.parent.parent %}
+    <p>Back up to...</p>
+    <ul>
+        <li><a href="{% url 'show_page' page.parent %}">{{ page.parent.title|rst2html_inline }}</a></li>
+    </ul>
+    {% endif %}
+
+</div>
+{% endif %}
+
+<div id="page-controls" class="noprint">
+    <h2>Page Controls</h2>
+    <ul id="control-list">
+        {% if user.is_authenticated %}
+        <li><button name="submit" onclick="location.href='{% url 'core_logout' %}?next={% url 'show_page' page %}'">Logout</button></li>
+        {% else %}
+        <li><button name="submit" onclick="location.href='{% url 'core_login' %}?next={% url 'show_page' page %}'">Login</button></li>
+        {% endif %}
+        <li><button onclick="location.href='{% url 'core_index' %}'">Index</button></li>
+        {% if user.is_staff %}
+        <li><button onclick="location.href='{% url 'edit_page' page %}'">Edit</button></li>
+        {% endif %}
+        <li><button onclick="location.href='{% url 'ppdf_page' page %}'">PDF</button></li>
+    </ul>
+</div>
+
+{% include "core/mathjax.html" %}
+{% endblock %}

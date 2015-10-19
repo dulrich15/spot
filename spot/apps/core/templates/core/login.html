@@ -1,0 +1,46 @@
+{% extends "core/layout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
+{% endblock %}
+
+{% block header %}
+<h1 id="title">Login</h1>
+{% endblock %}
+
+{% block main_content %}
+<div id="content">
+
+    {% if form.errors %}
+    <p style="color:red">Your username and password did not match. Please try again.</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+
+    <dl class="form-list">
+        <dt>{{ form.username.label_tag }}</dt>
+        <dd>{{ form.username }}</dd>
+        <dt>{{ form.password.label_tag }}</dt>
+        <dd>{{ form.password }}</dd>
+    </dl>
+    <p>
+        <button type="submit">Submit</button>
+    </p>
+
+    <input type="hidden" name="next" value="{{ next }}" />
+    {% csrf_token %}
+    </form>
+
+</div>
+
+<div id="page-controls">
+    <h2>Page Controls</h2>
+    <ul id="control_list">
+        <li><button name="submit" onclick="location.href='{{ next }}'">Cancel</button></li>
+        <li><button onclick="location.href='{% url 'core_index' %}'">Index</button></li>
+    </ul>
+</div>
+
+{% endblock %}

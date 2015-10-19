@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Django administration !' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrahead %}
+<style type="text/css">
+    textarea { font-family:monospace; }
+    .thumbnail img { border:1px solid gray; height:100px; }
+    .imagelink img { border:1px solid #ccc; width:610px; }
+</style>
+{% endblock %}

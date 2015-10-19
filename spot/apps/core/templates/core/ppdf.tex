@@ -1,0 +1,36 @@
+{% load restructuredtext_tags %}
+\documentclass{article}
+
+\usepackage[margin=0.625in,rmargin=3in]{geometry}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\usepackage{p200}
+
+\hypersetup{pdftitle = { {{ page.title2 }} } }
+\hypersetup{pdfauthor = { {{ page.author }} }, pdfsubject = {Physics} }
+
+\pagestyle{plain}
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+
+\LARGE{ \sf {{ page.title2|rst2latex }} }
+{% if page.subtitle %}
+\small{ \sf {{ page.subtitle|rst2latex }} }
+{% endif %}
+
+\vspace{5mm}
+
+{% if page.author %}
+\small{ \sf {{ page.author|rst2latex }} }
+{% endif %}
+
+\small{ \sf {% now "D d M Y" %} }
+
+\vspace{1cm}
+
+{{ page.content|rst2latex }}
+
+\end{document}

@@ -1,0 +1,7 @@
+body {
+    font-family:serif;
+    margin:1em;
+    /*background:#e6eefe;*/
+    background:white url(../img/back.png) repeat-x;
+    max-width:100%;
+}

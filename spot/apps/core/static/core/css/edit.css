@@ -1,0 +1,79 @@
+.editarea {
+    position:absolute;
+    left:0px;
+    padding:5px 0.5%;
+    width:99%;
+    border:none;
+}
+#title {
+    top:5px;
+    height:20px;
+    font-family:monospace;
+    font-weight:bold;
+}
+#content {
+    top:40px;
+    bottom:0px;
+}
+#page-controls ul {
+    top:40px;
+}
+
+/* Here are some other cool CSS tricks too:
+
+.toggle_upload {
+    position:absolute;
+    top:0.5em;
+    right:0.5em;
+    text-decoration:none;
+    color:red;
+    width:3ex;
+    text-align:center;
+}
+.toggle_upload:hover {
+    background:red;
+    color:white;
+}
+
+
+.description_box {
+    padding:0;
+    margin-bottom:1em;
+    width:100%;
+    position:relative;
+}
+.description_box h4 {
+    background:#eee;
+    text-align:center;
+    margin:0;
+    padding:0.5em 0;
+    border:1px solid #ccc;
+}
+.description_box dl {
+    padding:0.5em;
+    margin:0;
+    background:white;
+    border-right:1px solid #ccc;
+    border-bottom:1px solid #ccc;
+    border-left:1px solid #ccc;
+}
+
+
+
+dl.inline dt{
+    display:inline;
+    margin-right:1ex;
+}
+dl.inline dt:after {
+    content:":";
+}
+dl.inline dd {
+    display:inline;
+    margin-left:0;
+}
+dl.inline dd:after {
+    content:"\a";
+    white-space: pre;
+}
+
+*/

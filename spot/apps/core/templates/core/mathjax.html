@@ -1,0 +1,66 @@
+    <noscript>
+        <div style="color:#CC0000; text-align:center">
+            <b>Warning: <a href="http://www.mathjax.org/">MathJax</a>
+            requires JavaScript to process the mathematics on this page.<br />
+            If your browser supports JavaScript, be sure it is enabled.</b>
+        </div>
+        <hr>
+    </noscript>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [
+                    ["\\(","\\)"]
+                ]
+            },
+            "HTML-CSS": {
+                scale: 95
+            },
+            TeX: {
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                Macros: {
+                    implies:    "\\Rightarrow",
+                    half:       "{\\tfrac{1}{2}}",
+                    dg:         "{^\\circ}",
+                    unit:       ["{\\text{ #1}}",1],
+                    // vect:       ["{\\vec{#1}}",1],
+                    // vhat:       ["{\\hat{#1}}",1],
+                    vect:       ["{\\boldsymbol{#1}}",1],
+                    vhat:       ["{\\hat{\\boldsymbol{#1}}}",1],
+                    vmag:       ["{\\text{mag} \\vect{#1}}",1],
+                    vang:       ["{\\text{ang} \\vect{#1}}",1],
+                    sci:        ["{#1 \\times 10^{#2}}",2],
+                    abs:        ["{\\left\\vert #1 \\right\\vert}",1],
+                    avg:        ["{\\langle #1 \\rangle}",1],
+                    Avg:        ["{\\left \\langle #1 \\right \\rangle}",1],
+                    pd:         ["{\\frac{\\partial{#1}}{\\partial{#2}}}",2],
+                    pdd:        ["{\\frac{\\partial{#1}^2}{\\partial{#2}^2}}",2],
+                    tpd:        ["{\\partial{#1} / \\partial{#2}}",2],
+                    tpdd:       ["{\\partial{#1}^2 / \\partial{#2}^2}",2],
+                    real:       "{\\text{Re}}",
+                    grad:       "{\\nabla}",
+                    vdiv:       "{\\nabla \\cdot}",
+                    curl:       "{\\nabla \\times}",
+                    bra:        ["{\\langle #1 \\vert}",1],
+                    ket:        ["{\\vert #1 \\rangle}",1],
+                    braket:     ["{\\langle #1 \\vert #2 \\rangle}",2],
+                    Bra:        ["{\\bigg \\langle #1 \\Bigg \\vert}",1],
+                    Ket:        ["{\\Bigg \\vert #1 \\bigg \\rangle}",1],
+                    Braket:     ["{\\left \\langle #1 \\Bigg \\vert #2 \\right \\rangle}",2],
+                    d:          "{\\; d}",
+                    L:          "{\\mathcal{L}}",
+                    H:          "{\\mathcal{H}}",
+                    A:          "{\\mathcal{A}}",
+                    M:          "{\\mathcal{M}}",
+                    D:          "{\\mathcal{D}}",
+                    S:          "{\\mathcal{S}}",
+                    O:          "{\\mathcal{O}}",
+                    slashed:    ["{\\not{\\!#1}}",1],
+                    vvect:      ["\\overset{\\text{$\\tiny\\leftrightarrow$}}{#1}",1],
+                    bvect:      ["\\overset{\\text{$\\tiny\\leftarrow$}}{#1}",1]
+                }
+            }
+        });
+    </script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

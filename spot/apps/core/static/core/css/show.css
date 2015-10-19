@@ -1,0 +1,799 @@
+body {
+    overflow-x:hidden;
+    word-wrap:break-word;
+}
+table {
+    margin:1em 0;
+    background:#BBBBBB;
+}
+table, table * {
+    border:0px;
+}
+table th,td {
+    padding:5px 10px;
+    text-align:center;
+}
+table th {
+    background:#DDDDDD;
+}
+table td {
+    background:#FFFFFF;
+}
+table td.blank {
+    background:#AAAAAA;
+}
+ul {
+    padding-left:1.5em;
+}
+li {
+    margin:0.5em 0;
+}
+dl dt {
+    font-weight:bold;
+    margin:0.5em 0;
+}
+dl dd {
+    margin-left:1em;
+}
+blockquote {
+    margin:0;
+}
+/*
+blockquote p.attribution {
+    margin-left:2em;
+    display:block;
+    text-align:right;
+}
+*/
+form {
+    margin:1em 0;
+}
+form table input[type="text"] {
+    border:0;
+    background:white;
+}
+input[type="button"], button {
+    padding:0.5em 1em;
+    margin:0;
+}
+input[type="text"], 
+input[type="password"] {
+    padding:0.5em;
+}
+header {
+    border-bottom:2px solid #BBBBBB;
+}
+header * {
+    text-align:center;
+}
+header img {
+    margin:0 auto;
+	width:100%;
+	-ms-interpolation-mode: bicubic;
+}
+footer {
+    clear:left;
+    border-top:2px solid #BBBBBB;
+    padding:0 1em;
+    margin:1em 0;
+    text-align:center;
+}
+
+#content h3 {
+    padding:10px 10px;
+    margin:1em -10px;
+    background:#ffc;
+    border:1px solid #caa;
+}
+#table-of-contents {
+    padding:0 1em;
+    margin:1em 0;
+    border:1px solid #ccc;
+    background:white;
+}
+
+.toc-backref { text-decoration:none; }
+
+#main_content,
+#side_content {
+    width:96%;
+    margin:0 2%;
+    float:left;
+}
+#side_content {
+    border-top:2px solid #BBBBBB;
+}
+
+
+
+table.field-list,
+table.footnote {
+    width:100%;
+}
+table.field-list td,
+table.footnote td {
+    text-align:left;
+}
+table.footnote td.label {
+    width:2em;
+    text-align:center;
+}
+.pagediv {
+    margin:1em 0;
+    padding:0 1em;
+    background:#FFFFCC;
+    border:1px solid #CC8888;
+}
+.pagediv h2 {
+    border-bottom:1px solid #CC8888;
+    margin:0;
+    padding:1em 0;
+    text-align:left;
+    font-size:100%;
+    text-transform:uppercase;
+}
+#scratchpad {
+    position:absolute;
+    top:0;
+    right:0;
+    width:25%;
+    min-width:150px;
+    margin:8px;
+    background:#FFEEEE;
+}
+.tbl {
+    overflow-x:auto;
+}
+.block_link a {
+/* http://www.december.com/html/spec/color2.html */
+    display:block;
+    padding:1em;
+    margin:1em 0;
+    background:#C5E3BF;
+    border:1px solid #3F602B;
+    color:black;
+/*    text-align:center; */
+    text-decoration:none;
+}
+.block_link a:hover {
+    background:#94CB88;
+    border:1px solid black;
+}
+.block_link dt {
+    margin-top:0;
+}
+.block_link dd {
+    margin-left:0;
+}
+
+.block_notes {
+    font-size:75%;
+    font-style:italic;
+}
+
+#title {
+}
+#subtitle {
+}
+#docinfo {
+    padding:0;
+    list-style:none;
+}
+#docinfo li {
+    color:gray;
+    font-size:0.9em;
+    font-style:italic;
+    margin-top:0.5em;
+}
+
+.button {
+    padding:5px 6px;
+    margin:1em 5px 1em 0;
+    background:#C5E3BF;
+    border:1px solid #3F602B;
+    color:black;
+    text-decoration:none;
+}
+.button:hover {
+    background:yellow;
+}
+.fauxlink {
+    color:#ccc;
+}
+.document_list  {
+}
+.document_list  li {
+}
+.document_link {
+    margin:1em 0;
+    white-space:nowrap;
+}
+.document_link a {
+    display:inline-block;
+    white-space:normal;
+    vertical-align:middle;
+    margin-top:0;
+    margin-bottom:0;
+}
+
+
+
+#uploader input[type=text],
+#uploader textarea {
+    width:100%;
+    border:1px solid #ccc;
+    padding:5px;
+    font-family:sans-serif;
+}
+.error {
+    border:1px solid red;
+    background:#FFCCCC;
+    margin:0.5em 0;
+}
+
+
+.toggle_upload {
+    position:absolute;
+    top:0.5em;
+    right:0.5em;
+    text-decoration:none;
+    color:red;
+    width:3ex;
+    text-align:center;
+}
+.toggle_upload:hover {
+    background:red;
+    color:white;
+}
+
+
+
+
+ul.description_boxes {
+    list-style:none;
+    margin:0;
+    padding:0;
+    clear:both;
+    width:100%;
+}
+ul.description_boxes li {
+    padding:0;
+    margin-bottom:1em;
+    width:100%;
+    position:relative;
+}
+ul.description_boxes li h4 {
+    background:#eee;
+    text-align:center;
+    margin:0;
+    padding:0.5em 0;
+    border:1px solid #ccc;
+}
+ul.description_boxes li dl {
+    padding:0.5em;
+    margin:0;
+    background:white;
+    border-right:1px solid #ccc;
+    border-bottom:1px solid #ccc;
+    border-left:1px solid #ccc;
+}
+
+
+
+
+dl.inline dt{
+    display:inline;
+    margin-right:1ex;
+}
+dl.inline dt:after {
+    content:":";
+}
+dl.inline dd {
+    display:inline;
+    margin-left:0;
+}
+dl.inline dd:after {
+    content:"\a";
+    white-space: pre;
+}
+
+
+
+/*** BLOGGY STUFF ***/
+
+
+
+table {
+    border:1px solid #eee;
+}
+
+td {
+    padding:2px;
+    border:1px solid #eee;
+}
+
+hr {
+    border:0pt;
+    background:white url(../img/squig.bmp) no-repeat;
+    height:10px;
+}
+
+acronym {
+    border-bottom:1px dotted #f00;
+}
+
+.author {
+    float:right;
+    font-style:italic;
+}
+
+pre {
+    font-family:monospace;
+    overflow:auto;
+}
+
+.sidebar, .admonition {
+    border:0;
+    margin:2px;
+    font-size:0.8em;
+}
+
+/*
+.admonition {
+    background-image:url(../img/ast.png);
+    background-position:top=2px left;
+    background-repeat:no-repeat;
+}
+*/
+
+.clickable {
+    padding:1em;
+    background:#def;
+    border-right:1px solid #444;
+    border-bottom:1px solid #888;
+    border:1px solid #888;
+    cursor:pointer;
+}
+
+.align-center {
+  text-align:center;
+}
+
+.my-docutils.fig {
+  padding:1em;
+  background:#fff;
+  border:1px solid #ccc;
+  margin:1em auto;
+}
+.my-docutils.fig p {
+  margin-bottom:0;
+}
+.my-docutils.plt {
+  background:#fff;
+}
+.my-docutils.plt,
+.my-docutils.ani {
+  padding:1em;
+  border:1px solid #ccc;
+  margin:1em auto;
+}
+.my-docutils.plt p,
+.my-docutils.ani p {
+  margin-bottom:0;
+}
+.my-docutils.tbl table {
+  padding:1em;
+  background:#fff;
+  border:1px solid #ccc;
+  margin:1em auto;
+}
+.my-docutils.tbl.default table {
+  margin:1em auto;
+}
+.my-docutils.side {
+  float:right;
+  margin:1em 0 1em 1em;
+}
+
+.my-docutils img,
+.my-docutils video
+ {
+    max-width:100%;
+	height:auto;
+	-ms-interpolation-mode: bicubic;
+}
+.my-docutils.fig,
+.my-docutils.plt,
+.my-docutils.ani,
+.my-docutils.tbl {
+    text-align:center;
+}
+
+
+
+@media print {
+    #side_content { display: none; }
+}
+
+@media screen and (min-width:480px) {
+/* TABLET or SCREEN */
+}
+@media screen and (min-width:960px) {
+/* SCREEN ONLY */
+    #main_content {
+        width:67%;
+    }
+    #side_content {
+        width:25%;
+        border-top:none;
+    }
+    .full-hide { display:none }
+    /*
+    #table-of-contents {
+        width:50%;
+        float:right;
+        margin-left:1em;
+    }
+    */
+    ul.description_boxes li.left {
+        clear:none;
+        float:left;
+        width:48%;
+    }
+    ul.description_boxes li.right {
+        clear:none;
+        float:right;
+        width:48%;
+    }
+}
+
+
+
+
+
+
+ul {
+    padding-left:1.5em;
+}
+li {
+    margin:0.5em 0;
+}
+
+
+
+hr {
+  border:0pt;
+  background:white url(squig.png) no-repeat;
+  height:10px;
+}
+
+acronym {
+  border-bottom:1px dotted #f00;
+}
+/*
+blockquote {
+  background-image:url(lq.png);
+  background-position:top left;
+  background-repeat:no-repeat;
+  padding-bottom:1em;
+} 
+/*
+.author {
+  float:right;
+  font-style:italic;
+}
+
+pre {
+  font-family:monospace;
+  overflow:auto;
+}
+
+.clickable {
+  padding:1em;
+  background:#def;
+  border-right:1px solid #444;
+  border-bottom:1px solid #888;
+  border:1px solid #888;
+}
+
+.align-center {
+  text-align:center;
+}
+
+
+.block_link a {
+/* http://www.december.com/html/spec/color2.html */
+    display:block;
+    padding:1em;
+    margin:1em 0;
+    background:#C5E3BF;
+    border:1px solid #3F602B;
+    color:black;
+/*    text-align:center; */
+    text-decoration:none;
+}
+.block_link a:hover {
+    background:#94CB88;
+    border:1px solid black;
+}
+
+dl.block_link dt {
+    margin-top:0;
+}
+dl.block_link dd {
+    margin-left:0;
+}
+
+ul.block_link  {
+    padding:0;
+}
+ul.block_link li {
+    padding:0;
+    margin:0;
+    list-style-type:none;
+    font-weight:bold;
+}
+
+
+
+
+.my-docutils.fig,
+.my-docutils.plt,
+.my-docutils.ani,
+.my-docutils.tbl,
+.field-list {
+    margin:1em auto;
+    text-align:center;
+    border:1px solid #ccc;
+    background:white;
+    padding:2%;
+}
+.my-docutils.tbl table {
+    border:none;
+    margin:0 auto;
+    padding:0;
+}
+.my-docutils.fig,
+.my-docutils.plt,
+.my-docutils.ani {
+    line-height:0;
+}
+.my-docutils.tbl caption {
+    caption-side:bottom; 
+    margin:1em 0;
+}
+.my-docutils.fig p,
+.my-docutils.plt p,
+.my-docutils.ani p,
+.my-docutils.tbl caption {
+    line-height:1.2em;
+    margin-bottom:0;
+    font-style:italic;
+}
+
+.my-docutils.tbl table th,td {
+    padding:5px 10px;
+    text-align:center;
+}
+.my-docutils.tbl table th {
+    background:#ccc;
+}
+.my-docutils.tbl table td {
+    background:transparent;
+}
+.my-docutils.tbl table td * {
+    background:transparent
+}
+.my-docutils.tbl table input[type="text"] {
+    border:0;
+    text-align:center;
+    background:transparent
+}
+.my-docutils.tbl table tr:hover {
+    background:#eee;
+}
+
+.my-docutils.side {
+  float:right;
+  margin:1em 0 1em 1em;
+}
+
+.my-docutils img,
+.my-docutils video
+ {
+    max-width:100%;
+	height:auto;
+	-ms-interpolation-mode: bicubic;
+}
+
+
+
+span.pre {
+    font-family:monospace;
+}
+tt.literal { 
+    padding:0 2px;
+    font-family:monospace;
+    border:1px solid #ccc;
+    background:#eee;
+}
+.admonition, .topic, .sidebar, .note, .equation-set, blockquote, pre {
+    margin:1em 0;
+    padding:0 1em;
+    font-size:100%;
+}
+blockquote, pre {
+    padding:1em;
+}
+blockquote p:first-child {
+    margin-top:0;
+}
+blockquote p:last-child {
+    margin-bottom:0;
+}
+.admonition {
+    border:1px solid #faa;
+    background:#fee;
+}
+.admonition-title {
+    font-weight:bold;
+}
+.sidebar, .topic, .note, .equation-set {
+    border:1px solid #ccc;
+    background:#fff;
+}
+blockquote, pre {
+    border:1px solid #ccc;
+    background:transparent;
+}
+.sidebar-title, .topic-title {
+    font-weight:bold;
+}
+.equation-set h4 {
+    border-bottom:1px solid #ccc;
+    margin:0;
+    padding:1em 0;
+    text-transform:capitalize;
+}
+
+/* From docmaker css */
+
+.toggler {
+    float:right;
+    width:10em;
+    margin-left:1em !important;
+}
+.togglee {
+    display:none;
+}
+.solution {
+    display:none;
+    padding:0 1em;
+    margin:1em 0;
+    border:1px solid red;
+    overflow-x:auto;
+}
+.highlight {
+    background:yellow;
+    color:red;
+}
+
+ol.inside-list {
+    list-style-position:inside;
+    padding-left:0;
+}
+ol.docmaker {
+    list-style-type:none;
+    counter-reset:li;    
+}
+ol.docmaker * {
+    list-style-type:outside;
+}
+ol.docmaker > li:before {
+    content: counter(li) ".";
+    counter-increment: li;
+    float:left;
+    font-weight:bold;
+    margin-right:1em;
+}
+ul.docmaker {
+    padding-left:1.5em;
+}
+
+
+.edit_links {
+    list-style-type:none;
+    padding:0;
+}
+.edit_links > li > a {
+/* http://www.december.com/html/spec/color2.html */
+    display:block;
+    padding:0.5em 1em;
+    margin:0.5em 0;
+    background:#C5E3BF;
+    border:1px solid #3F602B;
+    color:black;
+    text-decoration:none;
+    font-weight:bold;
+}
+.edit_links > li > a:hover {
+    background:#94CB88;
+    border:1px solid black;
+}
+
+
+/******************/
+/* Docutils stuff */
+/******************/
+
+.docutils.footnote {
+    width:100%;
+    margin-bottom:1em;
+}
+.docutils.footnote td {
+    vertical-align:middle !important;
+    text-align:left;
+}
+.docutils.literal {
+    border:1px solid #ccc;
+    background:#eee;
+    padding:1px 2px;
+}
+.tbl .docutils.literal {
+    border:none;
+}
+.docutils.footnote td.label {
+    width:2em;
+    text-align:center;
+    vertical-align:top !important;
+}
+.warning,
+.admonition, 
+.sidebar {
+    padding:0 1em;
+    margin:1em 0;
+}
+.admonition-title {
+    font-weight:bold;
+    border-bottom:1px dotted blue;
+    padding-bottom:1em;
+}
+.sidebar-title {
+    font-style:italic;
+    padding-bottom:1em;
+    border-bottom:1px solid #ccc;
+    color:#aaa;
+}
+.admonition {
+    border:1px solid blue;
+    background:#e6eefe;
+}
+.sidebar {
+    border:1px solid #ccc;
+}
+.field-list {
+    overflow-x:auto;
+}
+.field-name, .field-body {
+    border:1px solid #aaa;
+    text-align:left;
+    vertical-align:middle;
+}
+.field-body {
+    width:100%;
+}
+.line-block {
+    margin:1em 0;
+}
+.rubric {
+    line-height:2em;
+    text-align:center;
+    font-style:italic;
+}
+
+
+@media screen and (max-width:480px) {
+    .node-list li {
+        margin:0.5em 0;
+    }
+}

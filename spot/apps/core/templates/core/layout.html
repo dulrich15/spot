@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>{% block title %}( default title ){% endblock %}</title>    
+    
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+	<meta name="viewport" content="width=device-width,initial-scale=1"> 
+    
+    <script src="{{ STATIC_URL }}core/js/jquery-1.8.3.min.js"></script>
+    <script src="{{ STATIC_URL }}core/js/main.js"></script>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/main.css" />
+
+    {% block head %}{% endblock %}
+
+    <script>
+    {% block extra_script %}{% endblock %}
+    </script>
+    
+    <style>
+    {% block extra_style %}{% endblock %}
+    </style>
+</head>
+<body>
+{% block body %}
+<header>
+    {% block header %}{% endblock %}
+</header>
+
+{% if messages %}
+<ul id="site_messages" onClick="Toggle('site_messages')">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% block content %}
+<div id="main_content">
+    {% block main_content %}{% endblock %}
+</div>
+
+<div id="side_content">
+    {% block side_content %}{% endblock %}
+</div>
+{% endblock %}
+
+<footer>
+    {% block footer %}
+    <p>
+    {% if '00001'|random == '0' %}
+    <a href="http://www.djangoproject.com/">
+        <img src="https://www.djangoproject.com/m/img/badges/djangopowered126x54.gif" border="0" alt="Powered by Django." title="Powered by Django." />
+    </a>
+    {% else %}
+    <a href="http://djangopony.com/" class="ponybadge" title="Magic! Ponies! Django! Whee!">
+        <img src="http://media.djangopony.com/img/small/badge.png" width="210" height="65" alt="pony powered">
+    </a>
+    {% endif %}
+    </p>
+    {% endblock %}
+</footer>
+{% endblock %}
+</body>
+</html>

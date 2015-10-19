@@ -1,0 +1,32 @@
+{% extends "core/layout.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/edit.css">
+    <script src="{{ STATIC_URL }}core/js/edit.js"></script>
+{% endblock %}
+
+{% block main_content %}
+<div id="sign_up">
+<form id="editor" method="post" action="{% url 'post_page' %}">
+    <p><textarea class="editarea" id="content" name="content">{{ page.content }}</textarea></p>
+    <p><input type="text" class="editarea" id="title" name="new_url" value="{{ page.url }}"></p>
+
+    <div id="page-controls">
+        <h2>Page Controls</h2>
+        <ul id="control_list">
+            <li><button type="submit" name="submit">Submit</button></li>
+            <li><button type="submit" name="update">Update</button></li>
+            <li><button type="submit" name="delete">Delete</button></li>
+            <li><button type="submit" name="cancel">Cancel</button></li>
+        </ul>
+    </div>
+
+    <input type="hidden" name="url" value="{{ page.url }}">
+    {% csrf_token %}
+</form>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

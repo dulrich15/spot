@@ -1,0 +1,7 @@
+.toggler,
+.noprint { display: none; }
+
+a:after {
+    content: " (" attr(href) ")";
+}
+

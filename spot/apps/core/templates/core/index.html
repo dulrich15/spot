@@ -1,0 +1,35 @@
+{% extends "core/layout.html" %}
+
+{% block title %}Classroom List{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
+{% endblock %}
+
+{% block header %}
+<h1>Classroom list</h1>
+{% endblock %}
+
+{% block main_content %}
+{% if user.is_staff %}
+<ul>
+    {% for classroom in classrooms %}
+    {% if classroom.is_active %}
+    <li><a href="{% url 'show_page' classroom.url %}">{{ classroom.title }} ({{ classroom.slug }})</a></li>
+    {% else %}
+    <li>[ <a href="{% url 'show_page' classroom.url %}">{{ classroom.title }} ({{ classroom.slug }})</a> ]</li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+{% if active_classrooms|length > 0 %}
+<ul>
+    {% for classroom in active_classrooms %}
+    <li><a href="{% url 'show_page' classroom.url %}">{{ classroom.title }} ({{ classroom.slug }})</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Ain't none here :(</p>
+{% endif %}
+{% endif %}
+{% endblock %}

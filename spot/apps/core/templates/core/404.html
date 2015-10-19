@@ -1,0 +1,36 @@
+{% extends "core/layout.html" %}
+{% load restructuredtext_tags %}
+
+{% block title %}404 page{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
+{% endblock %}
+
+{% block main_content %}
+<h1 id="title">{{ page.title }}</h1>
+<div id="content">
+    {% if page.parent %}
+    <p>Up to: <a href="{% url 'show_page' page.parent %}">{{ page.parent.title }}</a></p>
+    {% endif %}
+    <h2>Page not found</h2>
+    <p>Sorry, but this file ain't there...</p>
+    <ul>
+        {% if user.is_staff %}
+        <li><a href="{% url 'edit_page' page.pg %}">Create a new page</a></li>
+        {% endif %}
+        <li><a href="{% url 'root_page' %}">Return to WikiRoot</a></li>
+    </ul>
+</div>
+    
+<div id="controls">
+    <h2>Page Controls</h2>
+    <ul id="control_list">
+        {% if user.is_staff %}
+        <li><a href="{% url 'core_logout' %}?next={% url 'page_show' page.pg %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'core_login' %}?next={% url 'page_show' page.pg %}">Login</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
