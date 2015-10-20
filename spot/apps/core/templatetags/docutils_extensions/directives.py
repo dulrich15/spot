@@ -1091,42 +1091,6 @@ class problem_set_directive(rst.Directive):
         }
     has_content = True
 
-    def slug_lookup(self, slug):
-        problem = {
-            'slug': slug,
-            'question': 'Slug-key ``{}`` not found.'.format(slug),
-            'answer': '',
-            'solution': '',
-        }
-        
-        from apps.docmaker.models import ExerciseProblem
-        try:
-            obj = ExerciseProblem.objects.get(key=slug)
-            problem = {
-                'slug': slug,
-                'admin_url': reverse('admin:docmaker_exerciseproblem_change', args=(obj.pk,)),
-                'question': obj.question,
-                'answer': obj.answer,
-                'solution': obj.solution,
-            }
-        except:
-            pass
-
-        from apps.docmaker.models import ShortAnswerQuestion
-        try:
-            obj = ShortAnswerQuestion.objects.get(key=slug)
-            problem = {
-                'slug': slug,
-                'admin_url': reverse('admin:docmaker_shortanswerquestion_change', args=(obj.pk,)),
-                'question': obj.question,
-                'answer': obj.answer,
-                'solution': obj.solution,
-            }
-        except:
-            pass
-            
-        return problem
-
     def unpack(self, problem, format):
     
         question = problem.get('question','').strip()
@@ -1211,19 +1175,6 @@ class problem_set_directive(rst.Directive):
                 problem_set = []
             if problem_set: break
                 
-        # Convert slugs to objects
-
-        for index, obj in enumerate(problem_set):
-            if isinstance(obj, basestring):
-                slug = obj
-            else:
-                if 'question' in obj.keys():
-                    slug = ''
-                else:
-                    slug = obj.get('slug','')
-            if slug:
-                problem_set[index] = self.slug_lookup(slug)
-            
         # HTML writer specifics start...
         
         if problem_set:
