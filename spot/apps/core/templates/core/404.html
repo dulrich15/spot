@@ -7,29 +7,44 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
 {% endblock %}
 
+{% block header %}
+{% if page.classroom %}
+<a class="hoverlink" href="{% url 'show_page' page.classroom.home_page %}">
+<div>
+<h1 id="title">{{ page.classroom.title|rst2html_inline }}</h1>
+{% if page.classroom.banner %}<img src="{{ page.classroom.banner.url }}">{% endif %}
+{% if page.classroom.subtitle %}<p id="subtitle">{{ page.classroom.subtitle|rst2html_inline }}</p>{% endif %}    
+{% if page.children or page.series or page.siblings or page.parent %}
+{% if page.content %}
+<p class="full-hide"><a class="block-link noprint" href="#related-pages">Skip down to page navigation</a></p>
+{% endif %}
+{% endif %}
+</div>
+</a>
+{% else %}
+<h1 id="title">{{ page.title|rst2html_inline }}</h1>
+{% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
+{% endif %}
+{% endblock %}
+
 {% block main_content %}
-<h1 id="title">{{ page.title }}</h1>
+<h1 id="title">Page not found</h1>
 <div id="content">
-    {% if page.parent %}
-    <p>Up to: <a href="{% url 'show_page' page.parent %}">{{ page.parent.title }}</a></p>
-    {% endif %}
-    <h2>Page not found</h2>
-    <p>Sorry, but this file ain't there...</p>
     <ul>
         {% if user.is_staff %}
-        <li><a href="{% url 'edit_page' page.pg %}">Create a new page</a></li>
+        <li><a href="{% url 'edit_page' page %}">Create a new page</a></li>
         {% endif %}
         <li><a href="{% url 'root_page' %}">Return to WikiRoot</a></li>
     </ul>
 </div>
     
-<div id="controls">
+<div id="page-controls" class="noprint">
     <h2>Page Controls</h2>
-    <ul id="control_list">
-        {% if user.is_staff %}
-        <li><a href="{% url 'core_logout' %}?next={% url 'page_show' page.pg %}">Logout</a></li>
+    <ul id="control-list">
+        {% if user.is_authenticated %}
+        <li><button name="submit" onclick="location.href='{% url 'core_logout' %}?next={% url 'show_page' page %}'">Logout</button></li>
         {% else %}
-        <li><a href="{% url 'core_login' %}?next={% url 'page_show' page.pg %}">Login</a></li>
+        <li><button name="submit" onclick="location.href='{% url 'core_login' %}?next={% url 'show_page' page %}'">Login</button></li>
         {% endif %}
     </ul>
 </div>

@@ -48,12 +48,17 @@ def core_logout(request):
 
 
 def show_page(request, url='/'):            
-    try:    
+    try:
         page = Page.objects.get(url=url)
+        print page.access_level
+        if page.access_level == 1 and not request.user.is_active:
+            assert False
+        if page.access_level == 2 and not request.user.is_staff:
+            assert False
         page.update()
         template = 'core/show.html'
     except:
-        if request.user.is_authenticated:
+        if request.user.is_staff:
             return redirect('edit_page', url)
         else:
             template = 'core/404.html'

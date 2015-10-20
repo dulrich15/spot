@@ -141,7 +141,8 @@ class Page(Model):
         
         title = x.find('title')
         subtitle = x.find('subtitle')
-
+        access_level = None
+        
         author = None
         date = None
 
@@ -157,6 +158,8 @@ class Page(Model):
                         title = field_body
                     if field_name.lower() == 'subtitle':
                         subtitle = field_body
+                    if field_name.lower() == 'access-level':
+                        access_level = field_body
 
         self.title = self.url
         if title is not None:
@@ -165,7 +168,14 @@ class Page(Model):
         self.subtitle = ''
         if subtitle is not None:
             self.subtitle = subtitle.text
-            
+
+        self.access_level = 0
+        if access_level is not None:
+            try:
+                self.access_level = access_level.text
+            except:
+                pass
+
         self.author = ''
         if author is not None:
             self.author = author.text
@@ -176,7 +186,7 @@ class Page(Model):
                 self.date = datetime.datetime.strptime(date.text, '%Y-%m-%d')
             except:
                 pass
-
+            
         self.parent = None            
         if self.url != '/':
             parent_url = self.url.rsplit('/',2)[0] + '/'
