@@ -1,6 +1,6 @@
 function Toggle(id)
 {
-  e = document.getElementById(id).style;
+  var e = document.getElementById(id).style;
   e.display = ( e.display != 'block' ) ? 'block' : 'none';
 }
 
@@ -10,26 +10,6 @@ function buttonToggle(where, showLabel, hideLabel, disp) {
     var e = document.getElementById(where.attributes.rel.value);
     e.style.display = (e.style.display == disp) ? 'none' : disp;
 }
-
-function FindFocus()
-{
-  bFound = false;
-  for ( f = 0; f < document.forms.length; f++ )
-  {
-    for ( i = 0; i < document.forms[f].length; i++ )
-    {
-      if ( document.forms[f][i].type != "hidden" && document.forms[f][i].disabled != true )
-      {
-        document.forms[f][i].focus();
-        bFound = true;
-      }
-      if ( bFound == true ) break;
-    }
-    if ( bFound == true ) break;
-  }
-}
-
-
 
 $(document).keydown(function(e) {
     var keycode = e.which || e.keyCode;
@@ -78,5 +58,23 @@ $(document).ready(function($) {
         nwChar = ( $(this).text() == dnChar ) ? upChar : dnChar;
         $(this).text(nwChar)
     });
+});
+
+// FindFocus
+$(document).ready(function($) {
+  var bFound = false;
+  for ( var f = 0; f < document.forms.length; f++ )
+  {
+    for ( var i = 0; i < document.forms[f].length; i++ )
+    {
+      if ( document.forms[f][i].type != "hidden" && document.forms[f][i].disabled != true )
+      {
+        document.forms[f][i].focus();
+        bFound = true;
+      }
+      if ( bFound == true ) break;
+    }
+    if ( bFound == true ) break;
+  }
 });
 

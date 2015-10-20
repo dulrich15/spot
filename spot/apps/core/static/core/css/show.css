@@ -216,7 +216,11 @@ table.footnote td.label {
     margin-bottom:0;
 }
 
-
+.hoverlink {
+    text-decoration:none;
+    color:black;
+    cursor:pointer;
+}
 
 #uploader input[type=text],
 #uploader textarea {

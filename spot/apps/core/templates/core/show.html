@@ -47,17 +47,27 @@ $(document).keydown(function(e) {
 {% endblock %}
 
 {% block header %}
+{% if page.classroom %}
+<a class="hoverlink" href="{% url 'show_page' page.classroom.home_page %}">
+<div>
 <h1 id="title">{{ page.classroom.title|rst2html_inline }}</h1>
+{% if page.classroom.banner %}<img src="{{ page.classroom.banner.url }}">{% endif %}
 {% if page.classroom.subtitle %}<p id="subtitle">{{ page.classroom.subtitle|rst2html_inline }}</p>{% endif %}    
 {% if page.children or page.series or page.siblings or page.parent %}
 {% if page.content %}
 <p class="full-hide"><a class="block-link noprint" href="#related-pages">Skip down to page navigation</a></p>
 {% endif %}
 {% endif %}
+</div>
+</a>
+{% else %}
+<h1 id="title">{{ page.title|rst2html_inline }}</h1>
+{% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
+{% endif %}
 {% endblock %}
 
 {% block main_content %}
-{% if page.classroom.home_page != page %}
+{% if page.classroom and page.classroom.home_page != page %}
 <h2 id="title">{{ page.title|rst2html_inline }}</h2>
 {% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
 {% endif %}
@@ -65,7 +75,7 @@ $(document).keydown(function(e) {
     {% if page.author or page.date %}
     <ul id="docinfo">
         {% if page.author %}<li>Page Author: {{ page.author|rst2html_inline }}</li>{% endif %}
-        {% if page.date %}<li>Page Date: {{ page.date|date:"D d M Y" }}</li>{% endif %}
+        {% if page.date %}<li>Date: {{ page.date|date:"D d M Y" }}</li>{% endif %}
     </ul>
     {% endif %}
     
@@ -104,7 +114,7 @@ $(document).keydown(function(e) {
     </ul>
     {% endif %}
 
-    {% if not page.children and not page.series and page.siblings %}
+    {% if page.siblings %}
     <p>Related pages</p>
     <ul>
         {% for sibling_page in page.siblings %}

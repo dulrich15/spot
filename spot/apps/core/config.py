@@ -22,8 +22,15 @@ IMAGE_PATH = os.path.join(CONTENT_PATH, 'images')
 if not os.path.exists(IMAGE_PATH):
     os.makedirs(IMAGE_PATH)
 
+# Where we keep the banners
+BANNER_URL = posixpath.join(IMAGE_URL, 'banners')
+BANNER_PATH = os.path.join(IMAGE_PATH, 'banners')
+
+if not os.path.exists(IMAGE_PATH):
+    os.makedirs(IMAGE_PATH)
+
 # Directory within IMAGE_FOLDER where system-generated images will go
-SYSGEN_URL = posixpath.join(settings.STATIC_URL, 'images', 'sysgen')
+SYSGEN_URL = posixpath.join(IMAGE_URL, 'sysgen')
 SYSGEN_PATH = os.path.join(IMAGE_PATH, 'sysgen')
 
 if not os.path.exists(SYSGEN_PATH):

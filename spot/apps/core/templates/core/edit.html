@@ -7,7 +7,10 @@
     <script src="{{ STATIC_URL }}core/js/edit.js"></script>
 {% endblock %}
 
-{% block main_content %}
+{% block header %}
+{% endblock %}
+
+{% block content %}
 <div id="sign_up">
 <form id="editor" method="post" action="{% url 'post_page' %}">
     <p><textarea class="editarea" id="content" name="content">{{ page.content }}</textarea></p>

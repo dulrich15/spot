@@ -4,13 +4,19 @@ from __future__ import unicode_literals
 import codecs
 import copy
 import datetime
+import fnmatch
 import os
+import posixpath
 
 from django.db.models import *
 
+from config import BANNER_PATH
+from config import BANNER_URL
 from config import PAGE_PATH
 
 from templatetags.docutils_extensions.writers import rst2xml
+
+from utils import get_choices_from_path
 
 class Classroom(Model):
     slug = SlugField(max_length=64,unique=True)
@@ -19,6 +25,24 @@ class Classroom(Model):
     home_page = ForeignKey('Page',editable=False)
     title = CharField(max_length=256,blank=True,editable=False)
     subtitle = CharField(max_length=256,blank=True,editable=False)
+    banner_filename = CharField(max_length=200,choices=get_choices_from_path(BANNER_PATH),null=True,blank=True)
+
+    @property
+    def banner(self):
+        banner = dict()
+        banner['filename'] = self.banner_filename
+        banner['filepath'] = os.path.join(BANNER_PATH, banner['filename'])
+        banner['exists'] = os.path.isfile(banner['filepath'])
+        banner['url'] = posixpath.join(BANNER_URL, banner['filename'])
+        return banner
+
+    def banner_link(self):
+        return '<a class="imagelink" href="{url}"><img src="{url}"></a>'.format(url=self.banner['url'])
+    banner_link.allow_tags = True
+
+    def banner_thumbnail(self):
+        return '<a class="thumbnail" href="{url}"><img src="{url}"></a>'.format(url=self.banner['url'])
+    banner_thumbnail.allow_tags = True
 
     @property
     def url(self):
