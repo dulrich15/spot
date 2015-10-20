@@ -31,7 +31,7 @@
 <h1 id="title">Page not found</h1>
 <div id="content">
     <ul>
-        {% if user.is_staff %}
+        {% if page and user.is_staff %}
         <li><a href="{% url 'edit_page' page %}">Create a new page</a></li>
         {% endif %}
         <li><a href="{% url 'root_page' %}">Return to WikiRoot</a></li>

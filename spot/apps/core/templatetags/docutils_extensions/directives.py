@@ -1561,9 +1561,9 @@ class equipment_list_directive(rst.Directive):
                 if display == 'table':
                     if item:
                         if quantity:
-                            text += '<tr>\n<td>{}</td>\n<td>{}</td>\n<td>{}</td>\n</tr>\n'.format(quantity, item, location)
+                            text += '<tr>\n<td>{}</td>\n<td class="l">{}</td>\n<td>{}</td>\n</tr>\n'.format(quantity, item, location)
                         else:
-                            text += '<tr>\n<td></td>\n<td>{}</td>\n<td>{}</td>\n</tr>\n'.format(item, location)
+                            text += '<tr>\n<td></td>\n<td class="l">{}</td>\n<td>{}</td>\n</tr>\n'.format(item, location)
                     else:
                         text += '<tr>\n<td colspan=3>&mdash;</td>\n</tr>\n'
                 else:
