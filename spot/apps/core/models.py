@@ -20,13 +20,19 @@ from utils import get_choices_from_path
 
 class Classroom(Model):
     slug = SlugField(max_length=64,unique=True)
-    is_active = BooleanField(default=True)
-    
-    home_page = ForeignKey('Page',editable=False)
     title = CharField(max_length=256,blank=True,editable=False)
     subtitle = CharField(max_length=256,blank=True,editable=False)
     banner_filename = CharField(max_length=200,choices=get_choices_from_path(BANNER_PATH),null=True,blank=True)
+    home_page = ForeignKey('Page',editable=False)
 
+    @property
+    def is_active(self):
+        return ( self.home_page.restriction_level < 2 )
+        
+    @property
+    def url(self):
+        return '/{}/'.format(self.slug)
+        
     @property
     def banner(self):
         banner = dict()
@@ -44,10 +50,6 @@ class Classroom(Model):
         return '<a class="thumbnail" href="{url}"><img src="{url}"></a>'.format(url=self.banner['url'])
     banner_thumbnail.allow_tags = True
 
-    @property
-    def url(self):
-        return '/{}/'.format(self.slug)
-        
     def save(self, args=[], kwargs={}):
         try:
             home_page = Page.objects.get(url=self.url)
@@ -56,7 +58,10 @@ class Classroom(Model):
             home_page.save()
         
         self.home_page = home_page
-        self.title = home_page.title
+        if home_page:
+            self.title = home_page.title
+        else:
+            self.title = self.slug
         self.subtitle = home_page.subtitle
             
         super(Classroom, self).save(*args, **kwargs)
@@ -100,25 +105,23 @@ class Page(Model):
     def siblings(self):
         return Page.objects.filter(parent=self.parent).exclude(pk=self.pk)
         
-    # @property
-    # def series(self):
-    #     series = []
-    #     m = re.match('([\w\/]*)_(\d\d\d)$', self.pg)
-    #     if m: # this page is part of a series
-    #         for s in Page.objects.filter(parent=self.parent):
-    #             m1 = re.match('([\w\/]*)_(\d\d\d)$', s.pg)
-    #             if m1:
-    #                 if m1.group(1) == m.group(1):
-    #                     series.append(s)
-    #     series = sorted(series, key=lambda page: page.pg)
-    #     return series
-    
     @property
     def filepath(self):
         filepath = os.path.abspath(os.path.join(PAGE_PATH, self.url[1:]))
         if os.path.isdir(filepath):
             filepath = os.path.abspath(os.path.join(PAGE_PATH, self.url[1:], '_'))
         return filepath
+        
+    @property
+    def restriction_level(self):
+        if not self.parent:
+            restriction_level = 2
+        else:
+            restriction_level = self.access_level
+            if self.parent.parent:
+                if self.parent.restriction_level > restriction_level:
+                    restriction_level = self.parent.restriction_level
+        return restriction_level
         
     def update(self, force_update=False): # check file system for updated version
         fp = self.filepath

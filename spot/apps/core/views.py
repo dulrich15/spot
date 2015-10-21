@@ -23,10 +23,24 @@ def render_to_response(request, template, context):
     t = loader.get_template(template)
     return HttpResponse(t.render(c))
 
+
+def get_restriction_level(request):
+    if request.user.is_staff:
+        restriction_level = 2
+    elif request.user.is_authenticated():
+        restriction_level = 1
+    else:
+        restriction_level = 0
+    return restriction_level
+
+
 def core_index(request):
     classrooms = Classroom.objects.all()
-    active_classrooms = classrooms.filter(is_active=True)
-    
+    active_classrooms = []
+    for classroom in Classroom.objects.all():
+        if classroom.is_active:
+            active_classrooms.append(classroom)
+            
     context = {
         'classrooms': classrooms,
         'active_classrooms': active_classrooms,
@@ -50,25 +64,52 @@ def core_logout(request):
 def show_page(request, url='/'):            
     try:
         page = Page.objects.get(url=url)
-        if page.access_level == 1 and not request.user.is_active:
-            assert False
-        if page.access_level == 2 and not request.user.is_staff:
-            assert False
-        page.update()
-        # page.children.exclude(access_level=2)
-        # page.children.exclude(access_level=1)
-        context = {
-            'page' : page,
-        }
-        template = 'core/show.html'
     except:
+        page = None
+        
+    redirect_page = False
+    if page is None:
+        redirect_page = True
+    elif page.restriction_level > get_restriction_level(request):
+        redirect_page = True
+
+    if redirect_page:
         if request.user.is_staff:
             return redirect('edit_page', url)
         else:
-            context = {
-                'page': url,
-            }
+            context = { 'page': url }
             template = 'core/404.html'
+            return render_to_response(request, template, context)
+    
+    page.update()
+
+    if page.parent:
+        
+        page.down_list = []
+        for p in page.children:
+            if get_restriction_level(request) >= p.restriction_level:
+                page.down_list.append(p)
+        
+        page.side_list = []
+        for p in page.parent.children:
+            if get_restriction_level(request) >= p.restriction_level:
+                page.side_list.append(p)
+        
+        i = page.side_list.index(page)
+        if i < len(page.side_list) - 1:
+            page.next = page.side_list[i + 1]
+        if i > 0:
+            page.prev = page.side_list[i - 1]
+        page.side_list.remove(page)
+
+    context = {
+        'page' : page,
+        'restriction_level': get_restriction_level(request),
+    }
+    if request.session.get('show_full', False):
+        template = 'core/show_full.html'
+    else:
+        template = 'core/show.html'
 
     return render_to_response(request, template, context)
 
@@ -151,3 +192,8 @@ def ppdf_page(request, url=''):
     # response['Content-disposition'] = 'attachment; filename=%s' % outfile
 
     return response
+
+
+def show_full(request, url):
+    request.session['show_full'] = not(request.session.get('show_full', False))
+    return redirect('show_page', url)

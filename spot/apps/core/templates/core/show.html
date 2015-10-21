@@ -34,14 +34,52 @@ $(document).keydown(function(e) {
         {% endif %}
         e.preventDefault();
     }
+    if (key == 'q' && e.ctrlKey)
+    {
+        /* $("header").toggle(); */
+        location.href='{% url 'show_full' page %}';
+        e.preventDefault();
+    }
 
     // 37 left 38 up 39 right 40 down 
     // 188 comma 190 period 191 forward slash
 
-    {% if page.parent %}    
+    {% if page.parent.parent %}    
     if (e.ctrlKey && keycode == '38')
     {
         location.href='{% url 'show_page' page.parent %}';
+        e.preventDefault();
+    }
+    {% endif %}
+
+    {% if page.prev %}
+    if (keycode == '37')
+    {
+        location.href='{% url 'show_page' page.prev %}';
+        e.preventDefault();
+    }
+    {% endif %}
+
+    {% if page.next %}
+    if (keycode == '39')
+    {
+        location.href='{% url 'show_page' page.next %}';
+        e.preventDefault();
+    }
+    {% endif %}
+
+    {% if page.down_list %}
+    if (e.ctrlKey && keycode == '40')
+    {
+        location.href='{% url 'show_page' page.down_list.0 %}';
+        e.preventDefault();
+    }
+    {% endif %}
+
+    {% if user.is_staff %}    
+    if (keycode == '191')
+    {
+        location.href='{% url 'root_page' %}';
         e.preventDefault();
     }
     {% endif %}
@@ -55,7 +93,7 @@ $(document).keydown(function(e) {
 <div>
 <h1 id="title">{{ page.classroom.title|rst2html_inline }}</h1>
 {% if page.classroom.banner %}<img src="{{ page.classroom.banner.url }}">{% endif %}
-{% if page.classroom.subtitle %}<p id="subtitle">{{ page.classroom.subtitle|rst2html_inline }}</p>{% endif %}    
+<p id="subtitle">{{ page.classroom.subtitle|rst2html_inline }}</p>
 {% if page.children or page.series or page.siblings or page.parent %}
 {% if page.content %}
 <p class="full-hide"><a class="block-link noprint" href="#related-pages">Skip down to page navigation</a></p>
@@ -64,7 +102,11 @@ $(document).keydown(function(e) {
 </div>
 </a>
 {% else %}
+{% if page.title %}
 <h1 id="title">{{ page.title|rst2html_inline }}</h1>
+{% else %}
+<h1 id="title">{{ page.url|rst2html_inline }}</h1>
+{% endif %}
 {% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
 {% endif %}
 {% endblock %}
@@ -93,35 +135,30 @@ $(document).keydown(function(e) {
 {% block side_content %}
 <a name="related-pages"></a>
 
-{% if page.children or page.series or page.siblings or page.parent %}
+{% if page.down_list or page.side_list or page.parent.parent %}
 <div class="related-pages noprint">
-    {% if page.children %}
+    {% if page.down_list %}
     <p>Down to&hellip;</p>
     <ul>
-        {% for page in page.children %}
+        {% for page in page.down_list %}
+        {% if page.restriction_level < 2 %}
         <li><a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a></li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if page.series %}
-    <p>In this series&hellip;</p>
-    <ul>
-        {% for series_page in page.series %}
-        {% if series_page.pg == page.pg %}
-        <li><span>{{ series_page.title|rst2html_inline }}</span></li>
         {% else %}
-        <li><a href="{% url 'show_page' series_page %}">{{ series_page.title|rst2html_inline }}</a></li>
+        <li>[ <a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a> ]</li>
         {% endif %}
         {% endfor %}
     </ul>
     {% endif %}
 
-    {% if page.siblings %}
+    {% if page.side_list %}
     <p>Related pages</p>
     <ul>
-        {% for sibling_page in page.siblings %}
-        <li><a href="{% url 'show_page' sibling_page %}">{{ sibling_page.title|rst2html_inline }}</a></li>
+        {% for page in page.side_list %}
+        {% if page.restriction_level < 2 %}
+        <li><a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a></li>
+        {% else %}
+        <li>[ <a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a> ]</li>
+        {% endif %}
         {% endfor %}
     </ul>
     {% endif %}
@@ -129,7 +166,13 @@ $(document).keydown(function(e) {
     {% if page.parent.parent %}
     <p>Back up to...</p>
     <ul>
-        <li><a href="{% url 'show_page' page.parent %}">{{ page.parent.title|rst2html_inline }}</a></li>
+        {% with page.parent as page %}
+        {% if page.restriction_level < 2 %}
+        <li><a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a></li>
+        {% else %}
+        <li>[ <a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a> ]</li>
+        {% endif %}
+        {% endwith %}
     </ul>
     {% endif %}
 

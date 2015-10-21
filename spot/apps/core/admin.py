@@ -3,7 +3,7 @@ from models import *
 
 class ClassroomAdmin(ModelAdmin):
     readonly_fields = ['title','subtitle','banner_link']
-    # fields = ['classroom', 'banner_filename', 'banner_link']
+    # fields = ['classroom', 'banner_filename', 'banner_link', 'is_active']
 
 site.register(Classroom, ClassroomAdmin)
 

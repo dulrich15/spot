@@ -14,16 +14,10 @@
 <h1 id="title">{{ page.classroom.title|rst2html_inline }}</h1>
 {% if page.classroom.banner %}<img src="{{ page.classroom.banner.url }}">{% endif %}
 {% if page.classroom.subtitle %}<p id="subtitle">{{ page.classroom.subtitle|rst2html_inline }}</p>{% endif %}    
-{% if page.children or page.series or page.siblings or page.parent %}
-{% if page.content %}
-<p class="full-hide"><a class="block-link noprint" href="#related-pages">Skip down to page navigation</a></p>
-{% endif %}
-{% endif %}
 </div>
 </a>
 {% else %}
-<h1 id="title">{{ page.title|rst2html_inline }}</h1>
-{% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
+&nbsp;
 {% endif %}
 {% endblock %}
 
@@ -34,7 +28,7 @@
         {% if page and user.is_staff %}
         <li><a href="{% url 'edit_page' page %}">Create a new page</a></li>
         {% endif %}
-        <li><a href="{% url 'root_page' %}">Return to WikiRoot</a></li>
+        <li><a href="{% url 'core_index' %}">Return to Index</a></li>
     </ul>
 </div>
     
