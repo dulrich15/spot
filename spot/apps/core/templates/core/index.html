@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
 {% endblock %}
 
+{% block extra_script %}
+{% include "core/show_keybindings.html" %}
+{% endblock %}
+
 {% block header %}
 <h1>Classroom list</h1>
 {% endblock %}

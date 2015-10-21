@@ -100,7 +100,7 @@ def show_page(request, url='/'):
             page.next = page.side_list[i + 1]
         if i > 0:
             page.prev = page.side_list[i - 1]
-        page.side_list.remove(page)
+        # page.side_list.remove(page)
 
     context = {
         'page' : page,

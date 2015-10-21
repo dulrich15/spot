@@ -5,86 +5,11 @@
 
 {% block head %}
     <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
+    <script src="{{ STATIC_URL }}core/js/show.js"></script>
 {% endblock %}
 
 {% block extra_script %}
-$(document).keydown(function(e) {
-    var keycode = e.which || e.keyCode;
-    var key = String.fromCharCode(keycode).toLowerCase()
-
-    {% if user.is_authenticated %}
-    if (key == 'e' && e.ctrlKey)
-    {
-        location.href='{% url 'edit_page' page %}';
-        e.preventDefault();
-    }
-    {% endif %}
-    if (key == 'p' && e.ctrlKey)
-    {
-        /* window.print() */
-        location.href='{% url 'ppdf_page' page %}';
-        e.preventDefault();
-    }
-    if (key == 'l' && e.ctrlKey)
-    {
-        {% if user.is_authenticated %}
-        location.href='{% url 'core_logout' %}?next={% url 'show_page' page %}';
-        {% else %}
-        location.href='{% url 'core_login' %}?next={% url 'show_page' page %}';
-        {% endif %}
-        e.preventDefault();
-    }
-    if (key == 'q' && e.ctrlKey)
-    {
-        /* $("header").toggle(); */
-        location.href='{% url 'show_full' page %}';
-        e.preventDefault();
-    }
-
-    // 37 left 38 up 39 right 40 down 
-    // 188 comma 190 period 191 forward slash
-
-    {% if page.parent.parent %}    
-    if (e.ctrlKey && keycode == '38')
-    {
-        location.href='{% url 'show_page' page.parent %}';
-        e.preventDefault();
-    }
-    {% endif %}
-
-    {% if page.prev %}
-    if (keycode == '37')
-    {
-        location.href='{% url 'show_page' page.prev %}';
-        e.preventDefault();
-    }
-    {% endif %}
-
-    {% if page.next %}
-    if (keycode == '39')
-    {
-        location.href='{% url 'show_page' page.next %}';
-        e.preventDefault();
-    }
-    {% endif %}
-
-    {% if page.down_list %}
-    if (e.ctrlKey && keycode == '40')
-    {
-        location.href='{% url 'show_page' page.down_list.0 %}';
-        e.preventDefault();
-    }
-    {% endif %}
-
-    {% if user.is_staff %}    
-    if (keycode == '191')
-    {
-        location.href='{% url 'root_page' %}';
-        e.preventDefault();
-    }
-    {% endif %}
-    
-});
+{% include "core/show_keybindings.html" %}
 {% endblock %}
 
 {% block header %}
@@ -140,11 +65,11 @@ $(document).keydown(function(e) {
     {% if page.down_list %}
     <p>Down to&hellip;</p>
     <ul>
-        {% for page in page.down_list %}
-        {% if page.restriction_level < 2 %}
-        <li><a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a></li>
+        {% for pg in page.down_list %}
+        {% if pg.restriction_level < 2 %}
+        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
         {% else %}
-        <li>[ <a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a> ]</li>
+        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
         {% endif %}
         {% endfor %}
     </ul>
@@ -153,11 +78,15 @@ $(document).keydown(function(e) {
     {% if page.side_list %}
     <p>Related pages</p>
     <ul>
-        {% for page in page.side_list %}
-        {% if page.restriction_level < 2 %}
-        <li><a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a></li>
+        {% for pg in page.side_list %}
+        {% if pg == page %}
+        <li>{{ pg.title|rst2html_inline }}</li>
         {% else %}
-        <li>[ <a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a> ]</li>
+        {% if pg.restriction_level < 2 %}
+        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
+        {% else %}
+        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
+        {% endif %}
         {% endif %}
         {% endfor %}
     </ul>
@@ -166,11 +95,11 @@ $(document).keydown(function(e) {
     {% if page.parent.parent %}
     <p>Back up to...</p>
     <ul>
-        {% with page.parent as page %}
-        {% if page.restriction_level < 2 %}
-        <li><a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a></li>
+        {% with page.parent as pg %}
+        {% if pg.restriction_level < 2 %}
+        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
         {% else %}
-        <li>[ <a href="{% url 'show_page' page %}">{{ page.title|rst2html_inline }}</a> ]</li>
+        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
         {% endif %}
         {% endwith %}
     </ul>
