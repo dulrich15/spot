@@ -73,20 +73,33 @@ class Classroom(Model):
         ordering = ['slug']
 
 
+print_format_choices = [
+    ('print_page.tex','Page'),
+    ('print_book.tex','Book'),
+]
+access_level_choices = [
+    (0,'Public'),
+    (1,'Student'),
+    (2,'Instructor'),
+]
+
 class Page(Model):
     url = CharField(max_length=1024,unique=True)
     parent = ForeignKey('Page',null=True,blank=True,editable=False)
 
-    access_level = PositiveSmallIntegerField(default=0,choices=[(0,'Public'),(1,'Student'),(2,'Instructor')])
-    content = TextField(blank=True)    
+    content = TextField(blank=True)
 
     title = CharField(max_length=256,blank=True,editable=False)
     subtitle = CharField(max_length=256,blank=True,editable=False)
     author = CharField(max_length=256,blank=True,editable=False)
     date = DateField(null=True,blank=True,editable=False)
 
+    print_format = CharField(max_length=256,default='page',choices=print_format_choices,editable=False)
+    # print_format = PositiveSmallIntegerField(default=0,choices=print_format_choices,editable=False)
+    access_level = PositiveSmallIntegerField(default=0,choices=access_level_choices,editable=False)
+
     create_date = DateTimeField(auto_now_add=True)
-    update_date = DateTimeField(auto_now=True)
+    last_update = DateTimeField(auto_now=True)
 
     @property
     def classroom(self):
@@ -163,6 +176,8 @@ class Page(Model):
                         subtitle = field_body
                     if field_name.lower() == 'access-level':
                         access_level = field_body
+                    if field_name.lower() == 'print-format':
+                        print_format = field_body
 
         self.title = self.url
         if title is not None:

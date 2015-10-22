@@ -8,6 +8,6 @@ class ClassroomAdmin(ModelAdmin):
 site.register(Classroom, ClassroomAdmin)
 
 class PageAdmin(ModelAdmin):
-    readonly_fields = ['title','subtitle','author','date','parent']
+    readonly_fields = ['create_date','last_update','print_format','access_level','title','subtitle','author','date','parent']
 
 site.register(Page,PageAdmin)

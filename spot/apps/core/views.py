@@ -34,8 +34,28 @@ def get_restriction_level(request):
     return restriction_level
 
 
-def augment_page(page, restriction_level):
-    
+def get_page(url, request):
+    try:
+        page = Page.objects.get(url=url)
+    except:
+        page = None
+
+    restriction_level = get_restriction_level(request)
+
+    redirect_page = False
+    if page is None:
+        redirect_page = True
+    elif page.restriction_level > restriction_level:
+        redirect_page = True
+
+    if redirect_page:
+        if request.user.is_staff:
+            return redirect('edit_page', url)
+        else:
+            context = { 'page': url }
+            template = 'core/page_404.html'
+            return render_to_response(request, template, context)
+
     page.update()
 
     if page.parent:
@@ -92,28 +112,8 @@ def core_logout(request):
         return redirect('page_root')
 
 
-def show_page(request, url='/'):            
-    try:
-        page = Page.objects.get(url=url)
-    except:
-        page = None
-        
-    redirect_page = False
-    if page is None:
-        redirect_page = True
-    elif page.restriction_level > get_restriction_level(request):
-        redirect_page = True
-
-    if redirect_page:
-        if request.user.is_staff:
-            return redirect('edit_page', url)
-        else:
-            context = { 'page': url }
-            template = 'core/page_404.html'
-            return render_to_response(request, template, context)
-
-    page = augment_page(page, get_restriction_level(request))
-    
+def show_page(request, url='/'):
+    page = get_page(url, request)
     context = {
         'page' : page,
         'restriction_level': get_restriction_level(request),
@@ -182,45 +182,14 @@ def post_page(request):
     return redirect('root_page')
     
     
-def ppdf_page(request, url=''):
-    try:
-        page = Page.objects.get(url=url)
-    except:
-        page = None
-        
-    redirect_page = False
-    if page is None:
-        redirect_page = True
-    elif page.restriction_level > get_restriction_level(request):
-        redirect_page = True
-
-    if redirect_page:
-        if request.user.is_staff:
-            return redirect('edit_page', url)
-        else:
-            context = { 'page': url }
-            template = 'core/page_404.html'
-            return render_to_response(request, template, context)
-    
-    page = augment_page(page, get_restriction_level(request))
-
+def prnt_page(request, url=''):
+    page = get_page(url, request)
     context = {
         'page' : page,
     }
-    template = 'core/print_page.tex'
-
-    default_template = 'core/print_page.tex'
-    template = default_template
-    if page.content:
-        if '.. print-template:' in page.content.splitlines()[0]:
-            template = page.content.splitlines()[0].rsplit(':',1)[1].strip()
-            template = 'core/{}'.format(template)
-
+    template = 'core/{}'.format(page.print_format)
     c = Context(context, autoescape=False)
-    try:
-        t = loader.get_template(template)
-    except:
-        t = loader.get_template(default_template)
+    t = loader.get_template(template)
 
     latex = t.render(c)
 
