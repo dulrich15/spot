@@ -1,0 +1,12 @@
+{% load restructuredtext_tags %}
+\documentclass{article}
+
+{% include 'core/print_front_matter.tex' %}
+
+\begin{document}
+
+{% include 'core/print_page_header.tex' %}
+
+{{ page.content|rst2latex }}
+
+\end{document}

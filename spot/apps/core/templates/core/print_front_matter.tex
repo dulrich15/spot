@@ -1,0 +1,14 @@
+{% load restructuredtext_tags %}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage{p200}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+
+\hypersetup{pdftitle = {{ '{' }}{{ page.title|rst2latex }}{{ '}' }} }
+\hypersetup{pdfauthor = {{ '{' }}{{ page.author|rst2latex }}{{ '}' }}, pdfsubject = {Physics} }
+
+\pagestyle{plain}
+
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\tabcolsep}{0.2cm}
+

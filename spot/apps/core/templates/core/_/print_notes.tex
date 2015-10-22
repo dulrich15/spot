@@ -1,0 +1,26 @@
+{% load restructuredtext_tags %}
+\documentclass{article}
+
+\usepackage[margin=0.625in]{geometry}
+\usepackage{p200}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+
+\hypersetup{pdftitle = {{ '{' }}{{ classroom.title }} {{ docmaker.label }}{{ '}' }} }
+\hypersetup{pdfauthor = {{ '{' }}{{ classroom.instructor.name }}{{ '}' }}, pdfsubject = {Physics} }
+
+\pagestyle{plain}
+
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\tabcolsep}{0.2cm}
+
+\begin{document}
+
+\begin{center}
+{{ '{' }}\LARGE \sf {{ node.title|rst2latex }}{{ '}' }} \par
+\end{center}
+
+\vspace{0.5cm}
+ 
+{{ node.content|rst2latex }}
+
+\end{document}

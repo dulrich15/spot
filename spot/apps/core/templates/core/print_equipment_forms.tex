@@ -1,0 +1,52 @@
+{% load restructuredtext_tags %}
+\documentclass{article}
+
+{% include 'core/print_front_matter.tex' %}
+
+\begin{document}
+
+{% for node in node.children %}
+
+\begin{center}
+
+\textbf{\large LABORATORY EQUIPMENT REQUEST FORM}
+
+\vspace{0.2in}
+
+\begin{tabular}{p{1.25in}p{1.25in}p{1.25in}p{1.25in}}
+INSTRUCTOR: & {{ classroom.home_page.author }} & LAB SECTION: & {{ classroom.slug }} \\
+DATE(S) NEEDED: & \textbf{{ '{' }}{{ page.date|date:"b d, Y"|title }}{{ '}' }} & TIME NEEDED: & \textbf{6:00 pm} \\
+LAB TITLE: & \multicolumn{3}{l}{{ '{' }}\textbf{{ '{' }}{{ page.title|rst2latex }}{{ '}' }}{{ '}' }} \\
+&&& \\
+FILLED BY: & \underline{\makebox[1in]{}}
+& DATE FILLED: & \underline{\makebox[1in]{}} \\
+\end{tabular}
+
+\vspace{0.2in}
+
+{% if node.content %}
+{{ page.content|rst2latex }}
+{% else %}
+\vspace{0.5in}
+\textbf{DRY LAB}
+\vspace{0.2in}
+{% endif %}
+
+\vspace{0.2in}
+
+\end{center}
+
+Special Instructions: \par
+
+\underline{\makebox[\textwidth]{}}} \par
+\underline{\makebox[\textwidth]{}}} \par
+\underline{\makebox[\textwidth]{}}} \par
+\vspace{0.2in}
+
+Please allow \underline{two weeks} to process requests.
+
+\newpage
+
+{% endfor %}
+
+\end{document}

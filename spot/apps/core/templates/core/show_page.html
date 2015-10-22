@@ -1,4 +1,4 @@
-{% extends "core/layout.html" %}
+{% extends "core/page_layout.html" %}
 {% load restructuredtext_tags %}
 
 {% block title %}{{ page.title }}{% endblock %}
@@ -124,5 +124,5 @@
     </ul>
 </div>
 
-{% include "core/mathjax.html" %}
+{% include "core/show_mathjax.html" %}
 {% endblock %}

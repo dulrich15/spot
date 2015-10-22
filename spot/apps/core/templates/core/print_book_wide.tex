@@ -1,0 +1,40 @@
+{% load restructuredtext_tags %}
+\documentclass{article}
+
+{% include 'core/print_front_matter.tex' %}
+
+\begin{document}
+
+{% include 'core/print_page_header.tex' %}
+
+\makeindex
+
+{{ page.content|rst2latex }}
+
+{% for subpage in page.down_list %}
+\newpage
+\section{{ '{' }}{{ subpage.title|rst2latex }}{{ '}' }}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node [xshift=-0.25in,yshift=-0.25in] at (current page.north east) [below left] {{ '{' }}\sf \small {{ page.title }}{{ '}' }};
+\end{tikzpicture}
+
+{{ subpage.content|rst2latex }}
+
+{% for subsubpage in subpage.down_list %}
+\newpage
+\subsection*{{ '{' }}{{ subsubpage.title|rst2latex }}{{ '}' }}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node [xshift=-0.25in,yshift=-0.25in] at (current page.north east) [below left] {{ '{' }}\sf \small {{ subpage.title }}{{ '}' }};
+\end{tikzpicture}
+
+{{ subsubpage.content|rst2latex }}
+
+{% endfor %}
+
+{% endfor %}
+
+\printindex
+
+\end{document}

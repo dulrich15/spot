@@ -1,0 +1,20 @@
+{% load restructuredtext_tags %}
+
+{% if page.classroom %}
+{% include 'core/print_classroom_header.tex' %}
+{% endif %}
+
+\LARGE{ \sf {{ page.title|rst2latex }} }
+{% if page.subtitle %}
+\small{ \sf {{ page.subtitle|rst2latex }} }
+{% endif %}
+
+\vspace{5mm}
+
+{% if page.author %}
+\small{ \sf {{ page.author|rst2latex }} }
+{% endif %}
+
+\small{ \sf {% now "D d M Y" %} }
+
+\vspace{1cm}

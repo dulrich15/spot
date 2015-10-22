@@ -1,0 +1,70 @@
+{% load restructuredtext_tags %}
+\documentclass{article}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage{p200}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+
+\hypersetup{pdftitle = {{ '{' }}{{ node.title|rst2latex }}{{ '}' }} }
+\hypersetup{pdfauthor = {{ '{' }}{{ node.author|rst2latex }}{{ '}' }}, pdfsubject = {Physics} }
+
+\pagestyle{plain}
+
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\tabcolsep}{0.2cm}
+
+\begin{document}
+
+\makeindex
+
+\begin{center}
+
+{{ '{' }}\LARGE {{ classroom.title|rst2latex }}{{ '}' }}
+{% if classroom.subtitle %}
+\vskip 0.25cm
+{{ '{' }}\large {{ classroom.subtitle|rst2latex }}{{ '}' }}
+{% endif %}
+{% if classroom.extension.banner %}
+\vskip 0.25cm
+\includegraphics[width=\textwidth]{{ '{' }}{{ classroom.extension.banner.filepath|latex_path }}{{ '}' }}
+{% endif %}
+\vskip 0.25cm
+{{ '{' }}\large {{ classroom.season }} {{ classroom.year }}{{ '}' }}
+
+\rule{\textwidth}{1pt}
+
+\vskip 0.5cm
+{{ '{' }}\LARGE \sf {{ node.title|rst2latex }}{{ '}' }} \\[5mm]
+\vskip 0.5cm
+
+\end{center}
+
+{{ node.content|rst2latex }}
+
+{% for subnode in node.children %}
+\newpage
+\section{{ '{' }}{{ subnode.title|rst2latex }}{{ '}' }}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node [xshift=-0.25in,yshift=-0.25in] at (current page.north east) [below left] {{ '{' }}\sf \small {{ node.title }}{{ '}' }};
+\end{tikzpicture}
+
+{{ subnode.content|rst2latex }}
+
+{% for subsubnode in subnode.children %}
+\newpage
+\subsection*{{ '{' }}{{ subsubnode.title|rst2latex }}{{ '}' }}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node [xshift=-0.25in,yshift=-0.25in] at (current page.north east) [below left] {{ '{' }}\sf \small {{ subnode.parent.title }} | {{ subnode.title }}{{ '}' }};
+\end{tikzpicture}
+
+{{ subsubnode.content|rst2latex }}
+
+{% endfor %}
+
+{% endfor %}
+
+\printindex
+
+\end{document}

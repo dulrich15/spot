@@ -1,0 +1,13 @@
+{% load restructuredtext_tags %}
+
+\begin{center}
+{{ '{' }}\LARGE {{ page.classroom.title|rst2latex }}{{ '}' }}
+{% if page.classroom.banner %}
+\vskip 0.25cm
+\includegraphics[width=\textwidth]{{ '{' }}{{ page.classroom.banner.filepath|latex_path }}{{ '}' }}
+{% endif %}
+{% if page.classroom.subtitle %}
+\vskip 0.25cm
+{{ '{' }}\large {{ page.classroom.subtitle|rst2latex }}{{ '}' }}
+{% endif %}
+\end{center}

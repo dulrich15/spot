@@ -7,6 +7,7 @@ from django.utils.safestring import mark_safe
 from docutils.core import publish_parts
 
 from docutils_extensions import writers
+from docutils_extensions.directives import get_latex_path
 
 register = template.Library()
 
@@ -24,4 +25,4 @@ def rst2latex(source, initial_header=-1):
 
 @register.filter(is_safe=True)
 def latex_path(filepath):
-    return mark_safe(utils.get_latex_path(filepath))
+    return mark_safe(get_latex_path(filepath))

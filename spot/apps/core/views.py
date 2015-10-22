@@ -34,6 +34,37 @@ def get_restriction_level(request):
     return restriction_level
 
 
+def augment_page(page, restriction_level):
+    
+    page.update()
+
+    if page.parent:
+        
+        page.down_list = []
+        for child in page.children:
+            if restriction_level >= child.restriction_level:
+                page.down_list.append(child)
+        
+                child.down_list = []
+                for grandchild in child.children:
+                    if restriction_level >= grandchild.restriction_level:
+                        child.down_list.append(grandchild)
+
+        page.side_list = []
+        for sibling in page.parent.children:
+            if restriction_level >= sibling.restriction_level:
+                page.side_list.append(sibling)
+        # page.side_list.remove(page)
+
+        i = page.side_list.index(page)
+        if i < len(page.side_list) - 1:
+            page.next = page.side_list[i + 1]
+        if i > 0:
+            page.prev = page.side_list[i - 1]
+
+    return page
+
+
 def core_index(request):
     classrooms = Classroom.objects.all()
     active_classrooms = []
@@ -45,7 +76,7 @@ def core_index(request):
         'classrooms': classrooms,
         'active_classrooms': active_classrooms,
     }
-    template = 'core/index.html'
+    template = 'core/page_index.html'
     
     c = RequestContext(request, context)
     t = loader.get_template(template)
@@ -78,30 +109,11 @@ def show_page(request, url='/'):
             return redirect('edit_page', url)
         else:
             context = { 'page': url }
-            template = 'core/404.html'
+            template = 'core/page_404.html'
             return render_to_response(request, template, context)
+
+    page = augment_page(page, get_restriction_level(request))
     
-    page.update()
-
-    if page.parent:
-        
-        page.down_list = []
-        for p in page.children:
-            if get_restriction_level(request) >= p.restriction_level:
-                page.down_list.append(p)
-        
-        page.side_list = []
-        for p in page.parent.children:
-            if get_restriction_level(request) >= p.restriction_level:
-                page.side_list.append(p)
-        
-        i = page.side_list.index(page)
-        if i < len(page.side_list) - 1:
-            page.next = page.side_list[i + 1]
-        if i > 0:
-            page.prev = page.side_list[i - 1]
-        # page.side_list.remove(page)
-
     context = {
         'page' : page,
         'restriction_level': get_restriction_level(request),
@@ -109,7 +121,7 @@ def show_page(request, url='/'):
     if request.session.get('show_full', False):
         template = 'core/show_full.html'
     else:
-        template = 'core/show.html'
+        template = 'core/show_page.html'
 
     return render_to_response(request, template, context)
 
@@ -122,7 +134,7 @@ def edit_page(request, url='/'):
     except: # we still have to pass 'url' to the template...
         page = { 'url': url }
 
-    template = 'core/edit.html'
+    template = 'core/edit_page.html'
     context = {
         'page' : page,
     }
@@ -171,18 +183,45 @@ def post_page(request):
     
     
 def ppdf_page(request, url=''):
-    try:        
+    try:
         page = Page.objects.get(url=url)
     except:
-        return redirect('page_show', url)
+        page = None
+        
+    redirect_page = False
+    if page is None:
+        redirect_page = True
+    elif page.restriction_level > get_restriction_level(request):
+        redirect_page = True
+
+    if redirect_page:
+        if request.user.is_staff:
+            return redirect('edit_page', url)
+        else:
+            context = { 'page': url }
+            template = 'core/page_404.html'
+            return render_to_response(request, template, context)
+    
+    page = augment_page(page, get_restriction_level(request))
 
     context = {
         'page' : page,
     }
-    template = 'core/ppdf.tex'
+    template = 'core/print_page.tex'
 
-    c = Context(context,autoescape=False)
-    t = loader.get_template(template)
+    default_template = 'core/print_page.tex'
+    template = default_template
+    if page.content:
+        if '.. print-template:' in page.content.splitlines()[0]:
+            template = page.content.splitlines()[0].rsplit(':',1)[1].strip()
+            template = 'core/{}'.format(template)
+
+    c = Context(context, autoescape=False)
+    try:
+        t = loader.get_template(template)
+    except:
+        t = loader.get_template(default_template)
+
     latex = t.render(c)
 
     pdfname = make_pdf(latex, repeat=2)

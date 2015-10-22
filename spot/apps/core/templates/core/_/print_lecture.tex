@@ -1,0 +1,38 @@
+{% load restructuredtext_tags %}
+\documentclass{article}
+
+\usepackage[margin=0.625in]{geometry}
+\usepackage{p200}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+
+\hypersetup{pdftitle = {{ '{' }}{{ node.title|rst2latex }}{{ '}' }} }
+\hypersetup{pdfauthor = {{ '{' }}{{ node.author|rst2latex }}{{ '}' }}, pdfsubject = {Physics} }
+
+\pagestyle{plain}
+
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\tabcolsep}{0.2cm}
+
+\begin{document}
+
+\begin{center}
+{{ '{' }}\LARGE \sf {{ node.title|rst2latex }}{{ '}' }} \\[5mm]
+\vskip 0.25cm
+\small{{ '{' }}\sf {{ node.parent.title }}{{ '}' }} \\[2mm]
+\small{{ '{' }}\sf {{ node.date|date:"b d, Y"|title }}{{ '}' }}
+\end{center}
+
+{{ node.content|rst2latex }}
+
+{% for subnode in node.children %}
+\newpage
+\section{{ '{' }}{{ subnode.title|rst2latex }}{{ '}' }}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node [xshift=-0.25in,yshift=-0.25in] at (current page.north east) [below left] {{ '{' }}\sf \small {{ node.parent.title }} | {{ node.title }}{{ '}' }};
+\end{tikzpicture}
+
+{{ subnode.content|rst2latex }}
+{% endfor %}
+
+\end{document}
