@@ -272,11 +272,18 @@ class fig_directive(rst.Directive):
             else:
                 figtext = image
         else:
+            content = '\n'.join(self.content)#.replace('\\\\','\\')
+            # the following will replace something like 
+            #   \node at (2.7,-3.3) {\includegraphics[width=1cm]{!!checkmark.jpg}};
+            # with
+            #   \node at (2.7,-3.3) {\includegraphics[width=1cm]{/image/path/checkmark.jpg}};
+            pattern = r'{!!([^\}]*)}'
+            repl = lambda m: '{{{0}}}'.format(get_latex_path(os.path.join(IMAGE_PATH,m.group(1))))
+            content = re.sub(pattern,repl,content)
             # cf. note over LATEX_TEMPLATE
             figtext = '\n\\everymath{\\displaystyle}\n'
-            figtext += '\n'.join(self.content)
+            figtext += content
             figtext += '\n\\everymath{\\textstyle}\n'
-
         text = FIG_TEMPLATE[position] % {
             'offset'    : offset,
             'caption'   : caption,
@@ -329,13 +336,13 @@ class fig_directive(rst.Directive):
         else: # try to construct the image
             # Unlike a normal image, our reference will come from the content...
             content = '\n'.join(self.content)#.replace('\\\\','\\')
-            pattern = r'{!!([^\}]*)}'
-            repl = lambda m: '{{{0}}}'.format(get_latex_path(os.path.join(IMAGE_PATH,m.group(1))))
-            content = re.sub(pattern,repl,content)
-            # previous line will replace something like 
+            # the following will replace something like 
             #   \node at (2.7,-3.3) {\includegraphics[width=1cm]{!!checkmark.jpg}};
             # with
             #   \node at (2.7,-3.3) {\includegraphics[width=1cm]{/image/path/checkmark.jpg}};
+            pattern = r'{!!([^\}]*)}'
+            repl = lambda m: '{{{0}}}'.format(get_latex_path(os.path.join(IMAGE_PATH,m.group(1))))
+            content = re.sub(pattern,repl,content)
             image_hash = hashlib.md5(content.encode('utf-8')).hexdigest()
             image_name = '%s.png' % image_hash
             image_path = os.path.join(SYSGEN_PATH, 'latex', image_name)

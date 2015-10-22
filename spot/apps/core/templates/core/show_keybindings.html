@@ -86,7 +86,7 @@ $(document).keydown(function(e) {
     }
     {% endif %}
     
-    if (key == 'i')
+    if (key == 'i' || key == '0')
     {
         location.href='{% url 'core_index' %}';
         e.preventDefault();
