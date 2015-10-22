@@ -1,11 +1,7 @@
 {% load restructuredtext_tags %}
 \documentclass{article}
 
-\usepackage{p200}
-\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
-
-\hypersetup{pdftitle = {{ '{' }}{{ classroom.title }} {{ docmaker.label }}{{ '}' }} }
-\hypersetup{pdfauthor = {{ '{' }}{{ classroom.instructor.name }}{{ '}' }}, pdfsubject = {Physics} }
+{% include "core/print_front_matter.tex" %}
 
 \pagestyle{headings}
 
@@ -18,8 +14,8 @@
 \end{tikzpicture}
 
 \begin{center}
-\LARGE{{ '{' }}{{ classroom.title }} {{ node.title }}{{ '}' }} \\[2mm]
-\small{{ '{' }}\sf {{ node.date|date:"b d, Y"|title }}{{ '}' }}
+\LARGE{{ '{' }}{{ page.classroom.title }} {{ page.title }}{{ '}' }} \\[2mm]
+\small{{ '{' }}\sf {{ page.date|date:"b d, Y"|title }}{{ '}' }}
 \end{center}
 
 \thispagestyle{empty}
@@ -27,6 +23,6 @@
 \section*{Word Problems}
 Show all your work and circle your final answer. (Ten points each.) \par
 
-{{ node.content|rst2latex }}
+{{ page.content|rst2latex }}
 
 \end{document}

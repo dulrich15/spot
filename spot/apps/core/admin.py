@@ -2,8 +2,7 @@ from django.contrib.admin import *
 from models import *
 
 class ClassroomAdmin(ModelAdmin):
-    readonly_fields = ['title','subtitle','banner_link']
-    # fields = ['classroom', 'banner_filename', 'banner_link', 'is_active']
+    readonly_fields = ['title','subtitle','instructor','first_date','banner_link']
 
 site.register(Classroom, ClassroomAdmin)
 

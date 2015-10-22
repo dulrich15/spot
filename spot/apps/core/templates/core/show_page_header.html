@@ -1,3 +1,5 @@
+{% load restructuredtext_tags %}
+
 {% if page.classroom %}
 <a class="hoverlink" href="{% url 'show_page' page.classroom.home_page %}">
 <h1 id="title">{{ page.classroom.title|rst2html_inline }}</h1>

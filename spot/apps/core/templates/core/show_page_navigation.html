@@ -1,3 +1,5 @@
+{% load restructuredtext_tags %}
+
 <a name="related-pages"></a>
 {% if page.down_list or page.side_list or page.parent.parent %}
 <div class="related-pages noprint">
@@ -19,7 +21,11 @@
     <ul>
         {% for pg in page.side_list %}
         {% if pg == page %}
+        {% if pg.restriction_level < 2 %}
         <li>{{ pg.title|rst2html_inline }}</li>
+        {% else %}
+        <li>[ {{ pg.title|rst2html_inline }} ]</li>
+        {% endif %}
         {% else %}
         {% if pg.restriction_level < 2 %}
         <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>

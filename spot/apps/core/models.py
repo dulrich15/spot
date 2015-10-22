@@ -22,6 +22,9 @@ class Classroom(Model):
     slug = SlugField(max_length=64,unique=True)
     title = CharField(max_length=256,blank=True,editable=False)
     subtitle = CharField(max_length=256,blank=True,editable=False)
+    instructor = CharField(max_length=256,blank=True,editable=False)
+    first_date = DateField(null=True,blank=True,editable=False)
+    
     banner_filename = CharField(max_length=200,choices=get_choices_from_path(BANNER_PATH),null=True,blank=True)
     home_page = ForeignKey('Page',editable=False)
 
@@ -58,12 +61,11 @@ class Classroom(Model):
             home_page.save()
         
         self.home_page = home_page
-        if home_page:
-            self.title = home_page.title
-        else:
-            self.title = self.slug
+        self.title = home_page.title or self.slug
         self.subtitle = home_page.subtitle
-            
+        self.instructor = home_page.author
+        self.first_date = home_page.date
+        
         super(Classroom, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -76,6 +78,8 @@ class Classroom(Model):
 print_format_choices = [
     ('print_page.tex','Page'),
     ('print_book.tex','Book'),
+    ('print_exam.tex','Exam'),
+    ('print_form.tex','Equipment'),
 ]
 access_level_choices = [
     (0,'Public'),
@@ -94,9 +98,8 @@ class Page(Model):
     author = CharField(max_length=256,blank=True,editable=False)
     date = DateField(null=True,blank=True,editable=False)
 
-    print_format = CharField(max_length=256,default='page',choices=print_format_choices,editable=False)
-    # print_format = PositiveSmallIntegerField(default=0,choices=print_format_choices,editable=False)
-    access_level = PositiveSmallIntegerField(default=0,choices=access_level_choices,editable=False)
+    print_format = CharField(max_length=256,default=print_format_choices[0][0],choices=print_format_choices,editable=False)
+    access_level = PositiveSmallIntegerField(default=access_level_choices[0][0],choices=access_level_choices,editable=False)
 
     create_date = DateTimeField(auto_now_add=True)
     last_update = DateTimeField(auto_now=True)
@@ -140,10 +143,10 @@ class Page(Model):
         fp = self.filepath
         if os.path.isfile(fp):
             should_update = True
-            if self.update_date:
+            if self.last_update:
                 mod_timestamp = os.path.getmtime(fp)
                 mod_datetime = datetime.datetime.fromtimestamp(mod_timestamp)
-                if mod_datetime < self.update_date:
+                if mod_datetime < self.last_update:
                     should_update = False
             if should_update or force_update:
                 f = codecs.open(fp, 'r+', 'utf-8')
@@ -157,11 +160,11 @@ class Page(Model):
         
         title = x.find('title')
         subtitle = x.find('subtitle')
-        access_level = None
-        
         author = None
         date = None
-
+        access_level = None
+        print_format = None
+        
         docinfo = x.find('docinfo')
         if docinfo is not None:
             author = docinfo.find('author')
@@ -174,6 +177,10 @@ class Page(Model):
                         title = field_body
                     if field_name.lower() == 'subtitle':
                         subtitle = field_body
+                    if field_name.lower() == 'instructor':
+                        author = field_body
+                    if field_name.lower() == 'first-day':
+                        date = field_body
                     if field_name.lower() == 'access-level':
                         access_level = field_body
                     if field_name.lower() == 'print-format':
@@ -187,13 +194,20 @@ class Page(Model):
         if subtitle is not None:
             self.subtitle = subtitle.text
 
-        self.access_level = 0
+        self.access_level = access_level_choices[0][0]
         if access_level is not None:
-            try:
-                self.access_level = access_level.text
-            except:
-                pass
-
+            for (value, key) in access_level_choices:
+                if access_level.text == key.lower():
+                    self.access_level = value
+                    break
+            
+        self.print_format = print_format_choices[0][0]
+        if print_format is not None:
+            for (value, key) in print_format_choices:
+                if print_format.text == key.lower():
+                    self.print_format = value
+                    break
+            
         self.author = ''
         if author is not None:
             self.author = author.text

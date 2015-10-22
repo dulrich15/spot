@@ -1562,8 +1562,8 @@ class equipment_list_directive(rst.Directive):
 
             for equipment in equipment_list:
                 quantity = equipment.get('quantity','')
-                item = rst2html(equipment.get('item',''),inline=True).title()
-                location = rst2html(equipment.get('location',''),inline=True).title()
+                item = rst2html(equipment.get('item',''),inline=True)
+                location = rst2html(equipment.get('location',''),inline=True)
 
                 if display == 'table':
                     if item:
@@ -1602,8 +1602,8 @@ class equipment_list_directive(rst.Directive):
 
             for equipment in equipment_list:
                 quantity = equipment.get('quantity','')
-                item = rst2html(equipment.get('item',''),inline=True).title()
-                location = rst2html(equipment.get('location',''),inline=True).title()
+                item = rst2html(equipment.get('item',''),inline=True)
+                location = rst2html(equipment.get('location',''),inline=True)
 
                 if display == 'table':
                     text += '{} &\n'.format(quantity)
