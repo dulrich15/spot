@@ -13,114 +13,15 @@
 {% endblock %}
 
 {% block header %}
-{% if page.classroom %}
-<a class="hoverlink" href="{% url 'show_page' page.classroom.home_page %}">
-<h1 id="title">{{ page.classroom.title|rst2html_inline }}</h1>
-{% if page.classroom.banner %}<img src="{{ page.classroom.banner.url }}">{% endif %}
-</a>
-<p id="subtitle">{{ page.classroom.subtitle|rst2html_inline }}</p>
-{% if page.children or page.series or page.siblings or page.parent %}
-{% if page.content %}
-<p class="full-hide"><a class="block-link noprint" href="#related-pages">Skip down to page navigation</a></p>
-{% endif %}
-{% endif %}
-{% else %}
-{% if page.title %}
-<h1 id="title">{{ page.title|rst2html_inline }}</h1>
-{% else %}
-<h1 id="title">{{ page.url|rst2html_inline }}</h1>
-{% endif %}
-{% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
-{% endif %}
+{% include "core/show_page_header" %}
 {% endblock %}
 
 {% block main_content %}
-{% if page.classroom and page.classroom.home_page != page %}
-<h2 id="title">{{ page.title|rst2html_inline }}</h2>
-{% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
-{% endif %}
-<div{% if user.is_staff %} ondblclick="location.href='{% url 'edit_page' page %}';"{% endif %}>
-    {% if page.author or page.date %}
-    <ul id="docinfo">
-        {% if page.author %}<li>Page Author: {{ page.author|rst2html_inline }}</li>{% endif %}
-        {% if page.date %}<li>Date: {{ page.date|date:"D d M Y" }}</li>{% endif %}
-    </ul>
-    {% endif %}
-    
-    {% if page.content %} 
-    <div id="content">
-    {{ page.content|rst2html:3 }}
-    </div>
-    {% endif %}
-</div>
+{% include "core/show_page_content.html %}
 {% endblock %}
 
 {% block side_content %}
-<a name="related-pages"></a>
-
-{% if page.down_list or page.side_list or page.parent.parent %}
-<div class="related-pages noprint">
-    {% if page.down_list %}
-    <p>Down to&hellip;</p>
-    <ul>
-        {% for pg in page.down_list %}
-        {% if pg.restriction_level < 2 %}
-        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
-        {% else %}
-        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
-        {% endif %}
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if page.side_list %}
-    <p>Related pages</p>
-    <ul>
-        {% for pg in page.side_list %}
-        {% if pg == page %}
-        <li>{{ pg.title|rst2html_inline }}</li>
-        {% else %}
-        {% if pg.restriction_level < 2 %}
-        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
-        {% else %}
-        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
-        {% endif %}
-        {% endif %}
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if page.parent.parent %}
-    <p>Back up to...</p>
-    <ul>
-        {% with page.parent as pg %}
-        {% if pg.restriction_level < 2 %}
-        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
-        {% else %}
-        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
-        {% endif %}
-        {% endwith %}
-    </ul>
-    {% endif %}
-
-</div>
-{% endif %}
-
-<div id="page-controls" class="noprint">
-    <h2>Page Controls</h2>
-    <ul id="control-list">
-        {% if user.is_authenticated %}
-        <li><button name="submit" onclick="location.href='{% url 'core_logout' %}?next={% url 'show_page' page %}'">Logout</button></li>
-        {% else %}
-        <li><button name="submit" onclick="location.href='{% url 'core_login' %}?next={% url 'show_page' page %}'">Login</button></li>
-        {% endif %}
-        <li><button onclick="location.href='{% url 'core_index' %}'">Index</button></li>
-        <li><button onclick="location.href='{% url 'ppdf_page' page %}'">PDF</button></li>
-        {% if user.is_staff %}
-        <li><button onclick="location.href='{% url 'edit_page' page %}'">Edit</button></li>
-        {% endif %}
-    </ul>
-</div>
-
+{% include "core/show_page_navigation.html" %
+{% include "core/show_page_controls.html" %}
 {% include "core/show_mathjax.html" %}
 {% endblock %}

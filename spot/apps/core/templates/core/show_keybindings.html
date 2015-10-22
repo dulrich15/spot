@@ -15,7 +15,7 @@ $(document).keydown(function(e) {
     if (key == 'p')
     {
         /* window.print() */
-        location.href='{% url 'ppdf_page' page %}';
+        location.href='{% url 'prnt_page' page %}';
         e.preventDefault();
     }
     if (key == 'l')

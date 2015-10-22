@@ -1,0 +1,48 @@
+<a name="related-pages"></a>
+{% if page.down_list or page.side_list or page.parent.parent %}
+<div class="related-pages noprint">
+    {% if page.down_list %}
+    <p>Down to&hellip;</p>
+    <ul>
+        {% for pg in page.down_list %}
+        {% if pg.restriction_level < 2 %}
+        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
+        {% else %}
+        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if page.side_list %}
+    <p>Related pages</p>
+    <ul>
+        {% for pg in page.side_list %}
+        {% if pg == page %}
+        <li>{{ pg.title|rst2html_inline }}</li>
+        {% else %}
+        {% if pg.restriction_level < 2 %}
+        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
+        {% else %}
+        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if page.parent.parent %}
+    <p>Back up to...</p>
+    <ul>
+        {% with page.parent as pg %}
+        {% if pg.restriction_level < 2 %}
+        <li><a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a></li>
+        {% else %}
+        <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
+        {% endif %}
+        {% endwith %}
+    </ul>
+    {% endif %}
+
+</div>
+{% endif %}
