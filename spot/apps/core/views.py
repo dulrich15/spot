@@ -34,26 +34,28 @@ def get_restriction_level(request):
     return restriction_level
 
 
-def get_page(url):
+def get_page(url, request):
     try:
         page = Page.objects.get(url=url)
         page.update()
         
         if page.parent:
+
+            access_level = get_restriction_level(request)
             
             page.down_list = []
             for child in page.children:
-                if restriction_level >= child.restriction_level:
+                if access_level >= child.restriction_level:
                     page.down_list.append(child)
             
                     child.down_list = []
                     for grandchild in child.children:
-                        if restriction_level >= grandchild.restriction_level:
+                        if access_level >= grandchild.restriction_level:
                             child.down_list.append(grandchild)
     
             page.side_list = []
             for sibling in page.parent.children:
-                if restriction_level >= sibling.restriction_level:
+                if access_level >= sibling.restriction_level:
                     page.side_list.append(sibling)
             # page.side_list.remove(page)
     
@@ -97,14 +99,14 @@ def core_logout(request):
 
 
 def show_page(request, url='/'):
-    page = get_page(url)
+    page = get_page(url, request)
 
-    restriction_level = get_restriction_level(request)
+    access_level = get_restriction_level(request)
 
     redirect_page = False
     if page is None:
         redirect_page = True
-    elif page.restriction_level > restriction_level:
+    elif access_level < page.restriction_level:
         redirect_page = True
 
     if redirect_page:
@@ -184,7 +186,8 @@ def post_page(request):
     
     
 def prnt_page(request, url=''):
-    page = get_page(url)
+    page = get_page(url, request)
+
     context = {
         'page' : page,
     }
