@@ -76,11 +76,12 @@ def get_page(url, request):
                 page.side_list.append(sibling)
         # page.side_list.remove(page)
 
-        i = page.side_list.index(page)
-        if i < len(page.side_list) - 1:
-            page.next = page.side_list[i + 1]
-        if i > 0:
-            page.prev = page.side_list[i - 1]
+        if page.side_list:
+            i = page.side_list.index(page)
+            if i < len(page.side_list) - 1:
+                page.next = page.side_list[i + 1]
+            if i > 0:
+                page.prev = page.side_list[i - 1]
 
     return page
 
@@ -187,7 +188,7 @@ def prnt_page(request, url=''):
     context = {
         'page' : page,
     }
-    template = 'core/{}'.format(page.print_format)
+    template = 'core/{}'.format(page.print_template)
     c = Context(context, autoescape=False)
     t = loader.get_template(template)
 

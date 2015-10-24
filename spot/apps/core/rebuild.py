@@ -6,7 +6,7 @@ import shutil
 import sys
 
 from models import Page
-from config import page_path
+from config import PAGE_PATH
 from templatetags.docutils_extensions.config import SYSGEN_FOLDER
 
 def rebuild(wipe_sysgen=False):
@@ -15,8 +15,8 @@ def rebuild(wipe_sysgen=False):
     Will wipe DB and load data from file system.
     '''
     url_list = []
-    for root, dirs, files in os.walk(page_path):
-        head = root.replace(page_path, '')
+    for root, dirs, files in os.walk(PAGE_PATH):
+        head = root.replace(PAGE_PATH, '')
         path = head.split(os.sep)
         for file in files:
             url = '/'.join(path + [file])

@@ -2,10 +2,32 @@ $(document).keydown(function(e) {
     var keycode = e.which || e.keyCode;
     var key = String.fromCharCode(keycode).toLowerCase()
 
+    if (key == 'i' || key == '0')
+    {
+        location.href='{% url 'core_index' %}';
+        e.preventDefault();
+    }
+
+    {% if user.is_staff %}    
+    if (keycode == '191')
+    {
+        location.href='{% url 'root_page' %}';
+        e.preventDefault();
+    }
+    {% endif %}
+    
     {% if page %}
     
-    {% if user.is_authenticated %}
-    /* if (key == 'e' && e.ctrlKey) */
+    if (key == 'l')
+    {
+        {% if user.is_authenticated %}
+        location.href='{% url 'core_logout' %}?next={% url 'show_page' page %}';
+        {% else %}
+        location.href='{% url 'core_login' %}?next={% url 'show_page' page %}';
+        {% endif %}
+        e.preventDefault();
+    }
+    {% if user.is_staff %}
     if (key == 'e')
     {
         location.href='{% url 'edit_page' page %}';
@@ -16,15 +38,6 @@ $(document).keydown(function(e) {
     {
         /* window.print() */
         location.href='{% url 'prnt_page' page %}';
-        e.preventDefault();
-    }
-    if (key == 'l')
-    {
-        {% if user.is_authenticated %}
-        location.href='{% url 'core_logout' %}?next={% url 'show_page' page %}';
-        {% else %}
-        location.href='{% url 'core_login' %}?next={% url 'show_page' page %}';
-        {% endif %}
         e.preventDefault();
     }
     if (key == 'q')
@@ -76,20 +89,18 @@ $(document).keydown(function(e) {
     }
     {% endif %}
 
-    {% endif %}
+    {% else %}
     
-    {% if user.is_staff %}    
-    if (keycode == '191')
+    if (key == 'l')
     {
-        location.href='{% url 'root_page' %}';
-        e.preventDefault();
-    }
-    {% endif %}
-    
-    if (key == 'i' || key == '0')
-    {
-        location.href='{% url 'core_index' %}';
+        {% if user.is_authenticated %}
+        location.href='{% url 'core_logout' %}?next={% url 'core_index' %}';
+        {% else %}
+        location.href='{% url 'core_login' %}?next={% url 'core_index' %}';
+        {% endif %}
         e.preventDefault();
     }
 
+    {% endif %}
+    
 });

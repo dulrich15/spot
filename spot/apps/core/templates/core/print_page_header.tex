@@ -4,6 +4,8 @@
 {% include 'core/print_classroom_header.tex' %}
 {% endif %}
 
+{% if page != page.classroom.home_page %}
+
 \LARGE{ \sf {{ page.title|rst2latex }} }
 {% if page.subtitle %}
 \small{ \sf {{ page.subtitle|rst2latex }} }
@@ -18,3 +20,5 @@
 \small{ \sf {% now "D d M Y" %} }
 
 \vspace{1cm}
+
+{% endif %}
