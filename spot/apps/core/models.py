@@ -75,11 +75,11 @@ class Classroom(Model):
         ordering = ['slug']
 
 
-print_format_choices = [
+print_template_choices = [
     ('print_page.tex','Page'),
     ('print_book.tex','Book'),
     ('print_exam.tex','Exam'),
-    ('print_form.tex','Equipment'),
+    ('print_equipment_form.tex','Equipment'),
 ]
 access_level_choices = [
     (0,'Public'),
@@ -98,7 +98,7 @@ class Page(Model):
     author = CharField(max_length=256,blank=True,editable=False)
     date = DateField(null=True,blank=True,editable=False)
 
-    print_format = CharField(max_length=256,default=print_format_choices[0][0],choices=print_format_choices,editable=False)
+    print_template = CharField(max_length=256,default=print_template_choices[0][0],choices=print_template_choices,editable=False)
     access_level = PositiveSmallIntegerField(default=access_level_choices[0][0],choices=access_level_choices,editable=False)
 
     create_date = DateTimeField(auto_now_add=True)
@@ -163,7 +163,7 @@ class Page(Model):
         author = None
         date = None
         access_level = None
-        print_format = None
+        print_template = None
         
         docinfo = x.find('docinfo')
         if docinfo is not None:
@@ -183,8 +183,8 @@ class Page(Model):
                         date = field_body
                     if field_name.lower() == 'access-level':
                         access_level = field_body
-                    if field_name.lower() == 'print-format':
-                        print_format = field_body
+                    if field_name.lower() == 'print-template':
+                        print_template = field_body
 
         self.title = self.url
         if title is not None:
@@ -201,11 +201,11 @@ class Page(Model):
                     self.access_level = value
                     break
             
-        self.print_format = print_format_choices[0][0]
-        if print_format is not None:
-            for (value, key) in print_format_choices:
-                if print_format.text == key.lower():
-                    self.print_format = value
+        self.print_template = print_template_choices[0][0]
+        if print_template is not None:
+            for (value, key) in print_template_choices:
+                if print_template.text == key.lower():
+                    self.print_template = value
                     break
             
         self.author = ''
