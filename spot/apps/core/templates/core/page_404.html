@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
 {% endblock %}
 
+{% block extra_script %}
+{% include "core/show_keybindings.html" %}
+{% endblock %}
+
 {% block header %}
 {% if page.classroom %}
 <a class="hoverlink" href="{% url 'show_page' page.classroom.home_page %}">

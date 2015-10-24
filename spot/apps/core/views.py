@@ -34,55 +34,38 @@ def get_restriction_level(request):
     return restriction_level
 
 
-def get_page(url, request):
+def get_page(url):
     try:
         page = Page.objects.get(url=url)
+        page.update()
+        
+        if page.parent:
+            
+            page.down_list = []
+            for child in page.children:
+                if restriction_level >= child.restriction_level:
+                    page.down_list.append(child)
+            
+                    child.down_list = []
+                    for grandchild in child.children:
+                        if restriction_level >= grandchild.restriction_level:
+                            child.down_list.append(grandchild)
+    
+            page.side_list = []
+            for sibling in page.parent.children:
+                if restriction_level >= sibling.restriction_level:
+                    page.side_list.append(sibling)
+            # page.side_list.remove(page)
+    
+            if page.side_list:
+                i = page.side_list.index(page)
+                if i < len(page.side_list) - 1:
+                    page.next = page.side_list[i + 1]
+                if i > 0:
+                    page.prev = page.side_list[i - 1]
     except:
         page = None
-
-    restriction_level = get_restriction_level(request)
-
-    redirect_page = False
-    if page is None:
-        redirect_page = True
-    elif page.restriction_level > restriction_level:
-        redirect_page = True
-
-    if redirect_page:
-        if request.user.is_staff:
-            return redirect('edit_page', url)
-        else:
-            context = { 'page': url }
-            template = 'core/page_404.html'
-            return render_to_response(request, template, context)
-
-    page.update()
-
-    if page.parent:
         
-        page.down_list = []
-        for child in page.children:
-            if restriction_level >= child.restriction_level:
-                page.down_list.append(child)
-        
-                child.down_list = []
-                for grandchild in child.children:
-                    if restriction_level >= grandchild.restriction_level:
-                        child.down_list.append(grandchild)
-
-        page.side_list = []
-        for sibling in page.parent.children:
-            if restriction_level >= sibling.restriction_level:
-                page.side_list.append(sibling)
-        # page.side_list.remove(page)
-
-        if page.side_list:
-            i = page.side_list.index(page)
-            if i < len(page.side_list) - 1:
-                page.next = page.side_list[i + 1]
-            if i > 0:
-                page.prev = page.side_list[i - 1]
-
     return page
 
 
@@ -114,7 +97,24 @@ def core_logout(request):
 
 
 def show_page(request, url='/'):
-    page = get_page(url, request)
+    page = get_page(url)
+
+    restriction_level = get_restriction_level(request)
+
+    redirect_page = False
+    if page is None:
+        redirect_page = True
+    elif page.restriction_level > restriction_level:
+        redirect_page = True
+
+    if redirect_page:
+        if request.user.is_staff:
+            return redirect('edit_page', url)
+        else:
+            context = { 'page': url }
+            template = 'core/page_404.html'
+            return render_to_response(request, template, context)
+
     context = {
         'page' : page,
         'restriction_level': get_restriction_level(request),
@@ -184,7 +184,7 @@ def post_page(request):
     
     
 def prnt_page(request, url=''):
-    page = get_page(url, request)
+    page = get_page(url)
     context = {
         'page' : page,
     }
