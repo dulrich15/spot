@@ -13,7 +13,7 @@ from django.utils.safestring import mark_safe
 from docutils.core import publish_parts
 from docutils.writers import latex2e
 
-from spot.apps.core.config import LATEX_CMD
+from apps.core.config import LATEX_CMD
 
 from directives import LATEX_WORK_PATH
 

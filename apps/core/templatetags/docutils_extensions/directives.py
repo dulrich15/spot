@@ -19,16 +19,16 @@ from django.core.urlresolvers import reverse
 from docutils import nodes
 from docutils.parsers import rst
 
-from spot.apps.core.config import LATEX_CMD
-from spot.apps.core.config import GS_CMD
-from spot.apps.core.config import PYTHON_CMD
-from spot.apps.core.config import FFMPEG_CMD
+from apps.core.config import LATEX_CMD
+from apps.core.config import GS_CMD
+from apps.core.config import PYTHON_CMD
+from apps.core.config import FFMPEG_CMD
 
-from spot.apps.core.config import IMAGE_URL
-from spot.apps.core.config import IMAGE_PATH
+from apps.core.config import IMAGE_URL
+from apps.core.config import IMAGE_PATH
 
-from spot.apps.core.config import SYSGEN_URL
-from spot.apps.core.config import SYSGEN_PATH
+from apps.core.config import SYSGEN_URL
+from apps.core.config import SYSGEN_PATH
 
 from writers import rst2html
 from writers import rst2latex

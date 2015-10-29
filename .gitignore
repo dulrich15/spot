@@ -58,6 +58,7 @@ target/
 
 # My stuff:
 _/*
-spot/content/*
+content/*
+static/*
 *.sqlite3
 **temp.*

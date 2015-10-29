@@ -8,5 +8,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^index/$', TemplateView.as_view(template_name='website_index.html')),
-    url(r'^', include('spot.apps.core.urls')),
+    url(r'^', include('apps.core.urls')),
 ]

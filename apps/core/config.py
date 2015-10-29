@@ -7,7 +7,7 @@ import posixpath
 from django.conf import settings
 
 # Location of special content files
-CONTENT_PATH = os.path.join(settings.BASE_DIR, 'spot', 'content')
+CONTENT_PATH = os.path.join(settings.BASE_DIR, 'content')
 
 # Location to store text file versions of Pages data
 PAGE_PATH = os.path.join(CONTENT_PATH, 'pages')
