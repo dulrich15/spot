@@ -51,12 +51,12 @@
     {% block footer %}
     <p>
     {% if '00001'|random == '0' %}
-    <a href="http://www.djangoproject.com/">
-        <img src="https://www.djangoproject.com/m/img/badges/djangopowered126x54.gif" border="0" alt="Powered by Django." title="Powered by Django." />
+    <a href="//www.djangoproject.com/">
+        <img src="//www.djangoproject.com/m/img/badges/djangopowered126x54.gif" border="0" alt="Powered by Django." title="Powered by Django." />
     </a>
     {% else %}
     <a href="http://djangopony.com/" class="ponybadge" title="Magic! Ponies! Django! Whee!">
-        <img src="http://media.djangopony.com/img/small/badge.png" width="210" height="65" alt="pony powered">
+        <img src="{{ STATIC_URL }}core/img/pink-pony.png" width="210" height="65" alt="pony powered">
     </a>
     {% endif %}
     </p>
