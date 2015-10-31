@@ -7,7 +7,7 @@ import sys
 
 from models import Page
 from config import PAGE_PATH
-from templatetags.docutils_extensions.config import SYSGEN_FOLDER
+from config import SYSGEN_PATH
 
 def rebuild(wipe_sysgen=False):
     '''
@@ -37,8 +37,8 @@ def rebuild(wipe_sysgen=False):
 
     if wipe_sysgen:
         print 'Wiping sysgen'
-        for file in os.listdir(SYSGEN_FOLDER):
-            file_path = os.path.join(SYSGEN_FOLDER, file)
+        for file in os.listdir(SYSGEN_PATH):
+            file_path = os.path.join(SYSGEN_PATH, file)
             if os.isdir(file_path):
                 shutil.rmtree(file_path)
             else:
