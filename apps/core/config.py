@@ -41,3 +41,8 @@ LATEX_CMD  = ''
 GS_CMD     = 'gs'
 PYTHON_CMD = 'python'
 FFMPEG_CMD = 'ffmpeg'
+
+try:
+    from local.config import *
+except ImportError:
+    pass

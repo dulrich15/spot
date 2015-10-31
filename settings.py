@@ -1,32 +1,19 @@
-"""
-Django settings for spot project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.7/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.7/ref/settings/
-"""
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(__file__)
+import random
+import socket
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!l%n6_6f^q%dtagns!uq=vjr873&x+x0ygj-8j00jfpzy_0fj)'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
-
+DEBUG = ( 'web faction' not in socket.gethostname() )
+TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS = []
 
+BASE_DIR = os.path.dirname(__file__)
+LOCAL_DIR = os.path.join(BASE_DIR, 'local')
 
-# Application definition
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'content'),
+)
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -49,11 +36,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'urls'
-
 WSGI_APPLICATION = 'wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -62,25 +45,28 @@ DATABASES = {
     }
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = False
-
-USE_L10N = True
-
+USE_L10N = False
 USE_TZ = False
 
+#SECRET_KEY = '!l%n6_6f^q%dtagns!uq=vjr873&x+x0ygj-8j00jfpzy_0fj)'
+if not hasattr(globals(), 'SECRET_KEY'):
+    secret_file = os.path.join(LOCAL_DIR, 'secret_key.txt')
+    try:
+        SECRET_KEY = open(secret_file).read().strip()
+    except IOError:
+        try:
+            chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+'
+            SECRET_KEY = ''.join([random.choice(chars) for i in range(50)])
+            if not os.path.isdir(LOCAL_PATH):
+                os.mkdir(LOCAL_PATH)
+            secret = file(secret_file, 'w')
+            secret.write(SECRET_KEY)
+            secret.close()
+        except IOError:
+            raise Exception('Please create file {} filled with random characters to serve as your secret key.'.format(secret_file))
+    del secret_file
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'content'),
-)

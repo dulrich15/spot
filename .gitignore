@@ -57,8 +57,12 @@ docs/_build/
 target/
 
 # My stuff:
+*.sqlite3
+**temp.*
+
 _/*
 content/*
 static/*
-*.sqlite3
-**temp.*
+local/*
+!local/__init__.py
+
