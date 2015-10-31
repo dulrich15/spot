@@ -9,12 +9,6 @@ ALLOWED_HOSTS = []
 BASE_DIR = os.path.dirname(__file__)
 LOCAL_DIR = os.path.join(BASE_DIR, 'local')
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'content'),
-)
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -23,16 +17,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.core',
-)
-
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -45,13 +29,28 @@ DATABASES = {
     }
 }
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'content'),
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = False
 USE_L10N = False
 USE_TZ = False
 
-#SECRET_KEY = '!l%n6_6f^q%dtagns!uq=vjr873&x+x0ygj-8j00jfpzy_0fj)'
 if not hasattr(globals(), 'SECRET_KEY'):
     secret_file = os.path.join(LOCAL_DIR, 'secret_key.txt')
     try:
@@ -60,8 +59,8 @@ if not hasattr(globals(), 'SECRET_KEY'):
         try:
             chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+'
             SECRET_KEY = ''.join([random.choice(chars) for i in range(50)])
-            if not os.path.isdir(LOCAL_PATH):
-                os.mkdir(LOCAL_PATH)
+            if not os.path.isdir(LOCAL_DIR):
+                os.mkdir(LOCAL_DIR)
             secret = file(secret_file, 'w')
             secret.write(SECRET_KEY)
             secret.close()
