@@ -114,11 +114,13 @@ class Page(Model):
             page_url = match.group(1)
             try:
                 page = Page.objects.get(url=page_url)
-                root_url = reverse('show_page', args=['/'])
-                link_url = os.path.abspath(os.path.join(root_url, page_url[1:]))
-                docutils_link_text = r'`{} <{}/>`_'.format(page.title, link_url)
+                anchor_text = page.title
             except:
-                docutils_link_text = r'<<{}>>'.format(page_url)
+                page = None
+                anchor_text = page_url
+            root_url = reverse('show_page', args=['/'])
+            anchor_link = os.path.abspath(os.path.join(root_url, page_url[1:]))
+            docutils_link_text = r'`{} <{}/>`_'.format(anchor_text, anchor_link)
             return docutils_link_text
         
         pattern = r'<<(/[^\s]+/)>>'

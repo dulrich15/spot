@@ -35,8 +35,7 @@ def get_restriction_level(request):
 
 
 def get_page(url, request):
-    if 1==1:
-    # try:
+    try:
         page = Page.objects.get(url=url)
         page.update()
         
@@ -66,8 +65,8 @@ def get_page(url, request):
                     page.next = page.side_list[i + 1]
                 if i > 0:
                     page.prev = page.side_list[i - 1]
-    # except:
-    #     page = None
+    except:
+        page = None
         
     return page
 
