@@ -16,12 +16,15 @@
 {% include "core/show_page_header.html" %}
 {% endblock %}
 
-{% block main_content %}
+{% block content %}
 {% include "core/show_page_content.html" %}
-{% endblock %}
-
-{% block side_content %}
 {% include "core/show_page_navigation.html" %}
 {% include "core/show_page_controls.html" %}
 {% include "core/show_mathjax.html" %}
+{% endblock %}
+
+{% block main_content %}
+{% endblock %}
+
+{% block side_content %}
 {% endblock %}

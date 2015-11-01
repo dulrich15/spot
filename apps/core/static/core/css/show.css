@@ -74,7 +74,7 @@ header img {
 }
 footer {
     clear:left;
-    border-top:2px solid #BBBBBB;
+    border-top:2px solid #bbb;
     padding:0 1em;
     margin:1em 0;
     text-align:center;
@@ -95,17 +95,25 @@ footer {
 
 .toc-backref { text-decoration:none; }
 
-#main_content,
+#content {
+    padding:0 2%;
+}
+#main_content{
+    width:100%;
+    float:left;
+}
 #side_content {
     width:96%;
     margin:0 2%;
     float:left;
 }
 #side_content {
-    border-top:2px solid #BBBBBB;
+    border-top:2px solid #bbb;
 }
-
-
+body>div.related-pages {
+    border-top:2px solid #bbb;
+    padding:0 2%;
+}
 
 table.field-list,
 table.footnote {
