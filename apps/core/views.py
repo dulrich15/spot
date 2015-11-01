@@ -35,8 +35,7 @@ def get_restriction_level(request):
 
 
 def get_page(url, request):
-    # try:
-    if 1==1:
+    try:
         page = Page.objects.get(url=url)
         page.update()
         
@@ -57,8 +56,8 @@ def get_page(url, request):
             page.side_list = []
             for sibling in page.parent.children:
                 if access_level >= sibling.restriction_level:
-                    # if page.classroom and sibling.classroom is not None:
-                    if 1==1:
+                    # if page is a classroom, only show related classrooms
+                    if page.classroom is None or sibling.classroom is not None:
                         page.side_list.append(sibling)
 
             if page.series_member:
@@ -70,8 +69,8 @@ def get_page(url, request):
             else:
                 page.side_list.remove(page)
     
-    # except:
-    #     page = None
+    except:
+        page = None
         
     return page
 
