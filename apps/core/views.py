@@ -35,38 +35,43 @@ def get_restriction_level(request):
 
 
 def get_page(url, request):
-    try:
+    # try:
+    if 1==1:
         page = Page.objects.get(url=url)
         page.update()
         
+        access_level = get_restriction_level(request)
+        
+        page.down_list = []
+        for child in page.children:
+            if access_level >= child.restriction_level:
+                page.down_list.append(child)
+    
+                child.down_list = []
+                for grandchild in child.children:
+                    if access_level >= grandchild.restriction_level:
+                        child.down_list.append(grandchild)
+    
         if page.parent:
 
-            access_level = get_restriction_level(request)
-            
-            page.down_list = []
-            for child in page.children:
-                if access_level >= child.restriction_level:
-                    page.down_list.append(child)
-            
-                    child.down_list = []
-                    for grandchild in child.children:
-                        if access_level >= grandchild.restriction_level:
-                            child.down_list.append(grandchild)
-    
             page.side_list = []
             for sibling in page.parent.children:
                 if access_level >= sibling.restriction_level:
-                    page.side_list.append(sibling)
-            # page.side_list.remove(page)
-    
-            if page.side_list:
+                    # if page.classroom and sibling.classroom is not None:
+                    if 1==1:
+                        page.side_list.append(sibling)
+
+            if page.series_member:
                 i = page.side_list.index(page)
                 if i < len(page.side_list) - 1:
                     page.next = page.side_list[i + 1]
                 if i > 0:
                     page.prev = page.side_list[i - 1]
-    except:
-        page = None
+            else:
+                page.side_list.remove(page)
+    
+    # except:
+    #     page = None
         
     return page
 

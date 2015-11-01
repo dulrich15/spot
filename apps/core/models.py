@@ -40,11 +40,14 @@ class Classroom(Model):
         
     @property
     def banner(self):
-        banner = dict()
-        banner['filename'] = self.banner_filename
-        banner['filepath'] = os.path.join(BANNER_PATH, banner['filename'])
-        banner['exists'] = os.path.isfile(banner['filepath'])
-        banner['url'] = posixpath.join(BANNER_URL, banner['filename'])
+        if self.banner_filename:
+            banner = dict()
+            banner['filename'] = self.banner_filename
+            banner['filepath'] = os.path.join(BANNER_PATH, banner['filename'])
+            banner['exists'] = os.path.isfile(banner['filepath'])
+            banner['url'] = posixpath.join(BANNER_URL, banner['filename'])
+        else:
+            banner = None
         return banner
 
     def banner_link(self):
@@ -145,6 +148,14 @@ class Page(Model):
     def siblings(self):
         return Page.objects.filter(parent=self.parent).exclude(pk=self.pk)
         
+    @property
+    def series_member(self):
+        try:
+            int(self.url.split('/')[-2])
+            return True
+        except ValueError:
+            return False
+
     @property
     def filepath(self):
         filepath = os.path.abspath(os.path.join(PAGE_PATH, self.url[1:]))
