@@ -1,5 +1,6 @@
 {% load restructuredtext_tags %}
 
+{% if page.content %}
 <div{% if user.is_staff %} ondblclick="location.href='{% url 'edit_page' page %}';"{% endif %}>
 
     <div id="content">
@@ -23,3 +24,5 @@
     </div>
 
 </div>
+{% endif %}
+
