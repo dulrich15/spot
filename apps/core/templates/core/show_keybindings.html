@@ -54,7 +54,7 @@ $(document).keydown(function(e) {
     // 186 semicolon 222 apostrophe
     
     {% if page.parent %}
-    if ( (e.ctrlKey && keycode == '38') || (keycode == '189') )
+    if ( (e.ctrlKey && keycode == '38') || (keycode == '189') || (keycode == '188') )
     {
         {% if page.parent.parent %}
         location.href='{% url 'show_page' page.parent %}';
@@ -82,7 +82,7 @@ $(document).keydown(function(e) {
     {% endif %}
 
     {% if page.down_list %}
-    if ( (e.ctrlKey && keycode == '40') || (keycode == '187') )
+    if ( (e.ctrlKey && keycode == '40') || (keycode == '187') || (keycode == '190') )
     {
         location.href='{% url 'show_page' page.down_list.0 %}';
         e.preventDefault();
