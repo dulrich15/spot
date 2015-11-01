@@ -13,7 +13,7 @@
 {% block content %}
 <div id="sign_up">
 <form id="editor" method="post" action="{% url 'post_page' %}">
-    <p><textarea class="editarea" id="content" name="content">{{ page.content }}</textarea></p>
+    <p><textarea class="editarea" id="content" name="content">{{ page.raw_content }}</textarea></p>
     <p><input type="text" class="editarea" id="title" name="new_url" value="{{ page.url }}"></p>
 
     <div id="page-controls">

@@ -7,7 +7,9 @@ import datetime
 import fnmatch
 import os
 import posixpath
+import re
 
+from django.core.urlresolvers import reverse
 from django.db.models import *
 
 from config import BANNER_PATH
@@ -91,7 +93,7 @@ class Page(Model):
     url = CharField(max_length=1024,unique=True)
     parent = ForeignKey('Page',null=True,blank=True,editable=False)
 
-    content = TextField(blank=True)
+    raw_content = TextField(blank=True)
 
     title = CharField(max_length=256,blank=True,editable=False)
     subtitle = CharField(max_length=256,blank=True,editable=False)
@@ -103,6 +105,26 @@ class Page(Model):
 
     create_date = DateTimeField(auto_now_add=True)
     last_update = DateTimeField(auto_now=True)
+
+    @property
+    def content(self):
+        content = self.raw_content
+
+        def repl(match):
+            page_url = match.group(1)
+            try:
+                page = Page.objects.get(url=page_url)
+                root_url = reverse('show_page', args=['/'])
+                link_url = os.path.abspath(os.path.join(root_url, page_url[1:]))
+                docutils_link_text = r'`{} <{}/>`_'.format(page.title, link_url)
+            except:
+                docutils_link_text = r'<<{}>>'.format(page_url)
+            return docutils_link_text
+        
+        pattern = r'<<(/[^\s]+/)>>'
+        content = re.sub(pattern, repl, content)
+
+        return content
 
     @property
     def classroom(self):
@@ -152,7 +174,7 @@ class Page(Model):
                 f = codecs.open(fp, 'r+', 'utf-8')
                 content = f.read()
                 f.close()
-                self.content = content
+                self.raw_content = content
         self.save()
         
     def save(self, args=[], kwargs={}):
@@ -256,7 +278,7 @@ class Page(Model):
                 fp = self.filepath # reset in order to prepare to save the content
 
         f = codecs.open(fp, 'w+', 'utf-8')
-        f.write(self.content.strip())
+        f.write(self.raw_content.strip())
         f.close
 
         super(Page, self).save(*args, **kwargs)
