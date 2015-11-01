@@ -17,7 +17,11 @@
     {% endif %}
 
     {% if page.side_list %}
+    {% if page in page.side_list %}
+    <p>In this series&hellip;</p>
+    {% else %}
     <p>Related pages</p>
+    {% endif %}
     <ul>
         {% for pg in page.side_list %}
         {% if pg == page %}
