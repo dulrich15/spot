@@ -37,6 +37,7 @@ dl dd {
 }
 blockquote {
     margin:0;
+    overflow-x:auto;
 }
 /*
 blockquote p.attribution {
@@ -109,6 +110,7 @@ footer {
 table.field-list,
 table.footnote {
     width:100%;
+    overflow-x:auto;
 }
 table.field-list td,
 table.footnote td {
@@ -333,7 +335,7 @@ acronym {
 
 pre {
     font-family:monospace;
-    overflow:auto;
+    overflow-x:auto;
 }
 
 .sidebar, .admonition {
