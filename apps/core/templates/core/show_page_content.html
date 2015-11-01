@@ -2,6 +2,8 @@
 
 <div{% if user.is_staff %} ondblclick="location.href='{% url 'edit_page' page %}';"{% endif %}>
 
+    <div id="content">
+
     {% if page.classroom and page.classroom.home_page != page %}
     <h2 id="title">{{ page.title|rst2html_inline }}</h2>
     {% if page.subtitle %}<p id="subtitle">{{ page.subtitle|rst2html_inline }}</p>{% endif %}    
@@ -16,10 +18,8 @@
     {% endif %}
     {% endif %}
     
-    {% if page.content %}
-    <div id="content">
     {{ page.content|rst2html:3 }}
+
     </div>
-    {% endif %}
 
 </div>
