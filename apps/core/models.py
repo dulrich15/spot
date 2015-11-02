@@ -239,7 +239,7 @@ class Page(Model):
         self.print_template = print_template_choices[0][0]
         if print_template is not None:
             for (value, key) in print_template_choices:
-                if print_template.text == key.lower():
+                if print_template.text.lower() == key.lower():
                     self.print_template = value
                     break
             

@@ -21,7 +21,7 @@
     {% if classroom in active_classrooms %}
     <li><a href="{% url 'show_page' classroom.url %}">{{ classroom.title }}</a></li>
     {% else %}
-    <li>[ <a href="{% url 'show_page' classroom.url %}">{{ classroom.title }}</a> ]</li>
+    <li>[[ <a href="{% url 'show_page' classroom.url %}">{{ classroom.title }}</a> ]]</li>
     {% endif %}
     {% endfor %}
 </ul>
