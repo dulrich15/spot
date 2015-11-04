@@ -18,11 +18,20 @@ from templatetags.docutils_extensions.utils import make_pdf
 
 from models import *
 
+
 def render_to_response(request, template, context):
     c = RequestContext(request, context)
     t = loader.get_template(template)
     return HttpResponse(t.render(c))
 
+
+def get_bg_color(request):
+    if request.user.is_staff:
+        return '#e6eefe'
+    elif request.user.is_active:
+        return '#ffffe0'
+    else:
+        return '#ffffff'
 
 def get_restriction_level(request):
     if request.user.is_staff:
@@ -85,6 +94,7 @@ def core_index(request):
     context = {
         'classrooms': classrooms,
         'active_classrooms': active_classrooms,
+        'bg_color': get_bg_color(request),
     }
     template = 'core/page_index.html'
     
@@ -124,6 +134,7 @@ def show_page(request, url='/'):
     context = {
         'page' : page,
         'restriction_level': get_restriction_level(request),
+        'bg_color': get_bg_color(request),
     }
     if request.session.get('show_full', False):
         template = 'core/show_full.html'

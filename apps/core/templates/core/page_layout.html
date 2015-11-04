@@ -20,6 +20,9 @@
     </script>
     
     <style>
+    {% if bg_color %}
+        body { background:{{ bg_color }} }
+    {% endif %}
     {% block extra_style %}{% endblock %}
     </style>
 </head>
