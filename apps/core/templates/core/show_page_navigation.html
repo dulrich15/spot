@@ -32,7 +32,7 @@
         {% endif %}
         {% else %}
         {% if pg.restriction_level = 2 %}
-        <li>[[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a>]]</li>
+        <li>[[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]]</li>
         {% elif pg.restriction_level = 1 %}
         <li>[ <a href="{% url 'show_page' pg %}">{{ pg.title|rst2html_inline }}</a> ]</li>
         {% else %}
