@@ -59,6 +59,7 @@ target/
 # My stuff:
 *.sqlite3
 **temp.*
+**.swp
 
 _/*
 content/*

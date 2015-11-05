@@ -27,7 +27,7 @@ def render_to_response(request, template, context):
 
 def get_bg_color(request):
     if request.user.is_staff:
-        return '#e6eefe'
+        return '#f1e8e8'
     elif request.user.is_active:
         return '#ffffe0'
     else:
