@@ -83,6 +83,7 @@ class Classroom(Model):
 print_template_choices = [
     ('print_page.tex','Page'),
     ('print_book.tex','Book'),
+    ('print_book2.tex','Book2'),
     ('print_exam.tex','Exam'),
     ('print_equipment_form.tex','Equipment'),
 ]

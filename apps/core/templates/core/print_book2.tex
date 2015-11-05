@@ -20,6 +20,19 @@
 \end{tikzpicture}
 
 {{ subpage.content|rst2latex:1 }}
+
+{% for subsubpage in subpage.down_list %}
+\newpage
+\subsection*{{ '{' }}{{ subsubpage.title|rst2latex }}{{ '}' }}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node [xshift=-0.25in,yshift=-0.25in] at (current page.north east) [below left] {{ '{' }}\sf \small {{ subpage.title }}{{ '}' }};
+\end{tikzpicture}
+
+{{ subsubpage.content|rst2latex:2 }}
+
+{% endfor %}
+
 {% endfor %}
 
 \printindex
