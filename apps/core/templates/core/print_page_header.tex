@@ -17,7 +17,11 @@
 \small{ \sf {{ page.author|rst2latex }} }
 {% endif %}
 
+{% if page.date %}
+\small{ \sf {{ page.date|date:"D d M Y" }} }
+{% else %}
 \small{ \sf {% now "D d M Y" %} }
+{% endif %}
 
 \vspace{1cm}
 
