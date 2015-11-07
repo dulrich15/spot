@@ -51,11 +51,13 @@ class Classroom(Model):
         return banner
 
     def banner_link(self):
-        return '<a class="imagelink" href="{url}"><img src="{url}"></a>'.format(url=self.banner['url'])
+        if self.banner is not None:
+            return '<a class="imagelink" href="{url}"><img src="{url}"></a>'.format(url=self.banner['url'])
     banner_link.allow_tags = True
 
     def banner_thumbnail(self):
-        return '<a class="thumbnail" href="{url}"><img src="{url}"></a>'.format(url=self.banner['url'])
+        if self.banner is not None:
+            return '<a class="thumbnail" href="{url}"><img src="{url}"></a>'.format(url=self.banner['url'])
     banner_thumbnail.allow_tags = True
 
     def save(self, args=[], kwargs={}):
