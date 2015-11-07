@@ -85,19 +85,30 @@ def get_page(url, request):
 
 
 def core_index(request):
+    try:
+        classroom = Classroom.objects.filter(is_active=True).order_by('-first_date')[0]
+        page = classroom.home_page
+        return redirect('show_page', page.url)
+    except:
+        context = { 'page': '/' }
+        template = 'core/page_404.html'
+        return render_to_response(request, template, context)
+
+
+def show_classrooms(request):
     classrooms = Classroom.objects.all()
     active_classrooms = []
     for classroom in Classroom.objects.all():
         if classroom.is_active:
             active_classrooms.append(classroom)
-            
+
     context = {
         'classrooms': classrooms,
         'active_classrooms': active_classrooms,
         'bg_color': get_bg_color(request),
     }
-    template = 'core/page_index.html'
-    
+    template = 'core/show_classrooms.html'
+
     c = RequestContext(request, context)
     t = loader.get_template(template)
     
@@ -130,6 +141,7 @@ def show_page(request, url='/'):
             context = { 'page': url }
             template = 'core/page_404.html'
             return render_to_response(request, template, context)
+
 
     context = {
         'page' : page,

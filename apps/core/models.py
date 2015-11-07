@@ -26,12 +26,13 @@ class Classroom(Model):
     subtitle = CharField(max_length=256,blank=True,editable=False)
     instructor = CharField(max_length=256,blank=True,editable=False)
     first_date = DateField(null=True,blank=True,editable=False)
-    
+    is_active = BooleanField(default=False)
+
     banner_filename = CharField(max_length=200,choices=get_choices_from_path(BANNER_PATH),null=True,blank=True)
     home_page = ForeignKey('Page',editable=False)
 
     @property
-    def is_active(self):
+    def is_visible(self):
         return ( self.home_page.restriction_level < 2 )
         
     @property

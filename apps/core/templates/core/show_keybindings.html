@@ -2,7 +2,7 @@ $(document).keydown(function(e) {
     var keycode = e.which || e.keyCode;
     var key = String.fromCharCode(keycode).toLowerCase()
 
-    if (key == 'i' || key == '0')
+    if (key == '0')
     {
         location.href='{% url 'core_index' %}';
         e.preventDefault();
@@ -12,6 +12,12 @@ $(document).keydown(function(e) {
     if (keycode == '191')
     {
         location.href='{% url 'root_page' %}';
+        e.preventDefault();
+    }
+
+    if (keycode == '191' && e.shiftKey)
+    {
+        location.href='{% url 'show_classrooms' %}';
         e.preventDefault();
     }
     {% endif %}
