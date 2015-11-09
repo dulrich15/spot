@@ -8,7 +8,7 @@
         {% else %}
         <li><button name="submit" onclick="location.href='{% url 'core_login' %}?next={% url 'show_page' page %}'">Login</button></li>
         {% endif %}
-        <li><button onclick="location.href='{% url 'core_index' %}'">Index</button></li>
+        <li><button onclick="location.href='{% url 'core_index' %}'">Home</button></li>
         <li><button onclick="location.href='{% url 'prnt_page' page %}'">PDF</button></li>
         {% if user.is_staff %}
         <li><button onclick="location.href='{% url 'edit_page' page %}'">Edit</button></li>
