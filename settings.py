@@ -2,9 +2,9 @@ import os
 import random
 import socket
 
-DEBUG = ( 'web faction' not in socket.gethostname() )
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] # add your host name in local/settings.py
 
 BASE_DIR = os.path.dirname(__file__)
 LOCAL_DIR = os.path.join(BASE_DIR, 'local')
@@ -68,4 +68,8 @@ if not hasattr(globals(), 'SECRET_KEY'):
             raise Exception('Please create file {} filled with random characters to serve as your secret key.'.format(secret_file))
     del secret_file
 
+try:
+    from local.settings import *
+except ImportError:
+    pass
 
