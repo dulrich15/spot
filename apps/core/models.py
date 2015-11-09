@@ -9,6 +9,7 @@ import os
 import posixpath
 import re
 
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models import *
 
@@ -328,4 +329,3 @@ class Student(Model):
 
     class Meta:
         ordering = ['user__last_name', 'user__first_name']
-
