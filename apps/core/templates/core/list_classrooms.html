@@ -1,0 +1,50 @@
+{% extends "core/page_layout.html" %}
+
+{% block title %}Classroom List{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
+{% endblock %}
+
+{% block extra_script %}
+{% include "core/show_keybindings.html" %}
+{% endblock %}
+
+{% block header %}
+<h1>Classroom list</h1>
+{% endblock %}
+
+{% block main_content %}
+{% if user.is_staff %}
+<ul>
+    {% for classroom in classrooms %}
+    {% if classroom in active_classrooms %}
+    <li><a href="{% url 'show_page' classroom.url %}">{{ classroom.title }}</a></li>
+    {% else %}
+    <li>[[ <a href="{% url 'show_page' classroom.url %}">{{ classroom.title }}</a> ]]</li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+{% if active_classrooms|length > 0 %}
+<ul>
+    {% for classroom in active_classrooms %}
+    <li><a href="{% url 'show_page' classroom.url %}">{{ classroom.title }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Ain't none here :(</p>
+{% endif %}
+{% endif %}
+
+<div id="page-controls" class="noprint">
+    <h2>Page Controls</h2>
+    <ul id="control-list">
+        {% if user.is_authenticated %}
+        <li><button name="submit" onclick="location.href='{% url 'core_logout' %}?next={% url 'core_index' %}'">Logout</button></li>
+        {% else %}
+        <li><button name="submit" onclick="location.href='{% url 'core_login' %}?next={% url 'core_index' %}'">Login</button></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

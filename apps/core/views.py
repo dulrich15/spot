@@ -95,7 +95,7 @@ def core_index(request):
         return render_to_response(request, template, context)
 
 
-def show_classrooms(request):
+def list_classrooms(request):
     classrooms = Classroom.objects.all()
     active_classrooms = []
     for classroom in Classroom.objects.all():
@@ -107,7 +107,7 @@ def show_classrooms(request):
         'active_classrooms': active_classrooms,
         'bg_color': get_bg_color(request),
     }
-    template = 'core/show_classrooms.html'
+    template = 'core/list_classrooms.html'
 
     c = RequestContext(request, context)
     t = loader.get_template(template)

@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'core/page_login.html'}, name='core_login'),
     url(r'^logout/$', views.core_logout, name='core_logout'),
 
-    url(r'^classrooms/$', views.show_classrooms, name='show_classrooms'),
+    url(r'^classrooms/$', views.list_classrooms, name='show_classrooms'),
 
     url(r'^show/$', views.show_page, name='root_page'),
 
