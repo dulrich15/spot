@@ -1,0 +1,18 @@
+{% extend "core/page_layout.html" %}
+
+{% block main_content %}
+<h2>Edit Student List</h2>
+<p>Paste in a comma delimited file: ID, Last Name, First Name</p>
+
+<form action="{% url post_student_list %}" method="post">
+    <p>
+        <textarea name="student_list_csv" cols=80 rows=30>{{ student_list_csv }}</textarea>
+    </p>
+    <p>
+        <input type="submit" name="submit" value="Submit">
+        <input type="submit" name="cancel" value="Cancel">
+    </p>
+    {% csrf_token %}
+</form>
+{% endblock %}
+

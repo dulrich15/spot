@@ -1,0 +1,22 @@
+{% extends "core/page_layout.html" %}
+{% load restructuredtext_tags %}
+
+{% block main_content %}
+    {% if user.is_staff %}
+    <ul class="action_links">
+        <li><a href="{% url edit_student_list %}">Edit</a></li>
+    </ul>
+    {% endif %}
+
+    <h2>Students</h2>
+    {% if classroom.student_set.all %}
+    <ol>
+        {% for student in classroom.student_set.all %}
+        <li>{{ student.full_name }}</li>
+        {% endfor %}
+    </ol>
+    {% else %}
+    <p>No students assigned.</p>
+    {% endif %}
+{% endblock %}
+
