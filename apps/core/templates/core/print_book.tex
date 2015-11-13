@@ -3,11 +3,11 @@
 
 {% include 'core/print_front_matter.tex' %}
 
+\makeindex
+
 \begin{document}
 
 {% include 'core/print_page_header.tex' %}
-
-\makeindex
 
 {{ page.content|rst2latex }}
 
