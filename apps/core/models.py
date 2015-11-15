@@ -117,7 +117,27 @@ class Page(Model):
     def content(self):
         content = self.raw_content
 
-        def repl(match):
+        def repl2(match):
+            anchor_text = match.group(1)
+            page_url = match.group(2)
+            root_url = reverse('show_page', args=['/'])
+            anchor_link = os.path.abspath(os.path.join(root_url, page_url[1:]))
+            docutils_link_text = r'`{} <{}/>`__'.format(anchor_text, anchor_link)
+            return docutils_link_text
+        
+        pattern = r'`(.+) <<(/[^\s]+/)>>`__'
+        content = re.sub(pattern, repl2, content)
+
+        def repl3(match):
+            page_url = match.group(1)
+            root_url = reverse('show_page', args=['/'])
+            anchor_link = os.path.abspath(os.path.join(root_url, page_url[1:]))
+            return '__ {}/'.format(anchor_link)
+        
+        pattern = r'__ <<(/[^\s]+/)>>'
+        content = re.sub(pattern, repl3, content)
+
+        def repl1(match):
             page_url = match.group(1)
             try:
                 page = Page.objects.get(url=page_url)
@@ -127,11 +147,11 @@ class Page(Model):
                 anchor_text = page_url
             root_url = reverse('show_page', args=['/'])
             anchor_link = os.path.abspath(os.path.join(root_url, page_url[1:]))
-            docutils_link_text = r'`{} <{}/>`_'.format(anchor_text, anchor_link)
+            docutils_link_text = r'`{} <{}/>`__'.format(anchor_text, anchor_link)
             return docutils_link_text
         
         pattern = r'<<(/[^\s]+/)>>'
-        content = re.sub(pattern, repl, content)
+        content = re.sub(pattern, repl1, content)
 
         return content
 
