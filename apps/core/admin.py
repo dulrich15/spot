@@ -21,4 +21,10 @@ site.register(Classroom, ClassroomAdmin)
 class PageAdmin(ModelAdmin):
     readonly_fields = ['create_date','last_update','print_template','access_level','title','subtitle','author','date','parent']
 
-site.register(Page,PageAdmin)
+site.register(Page, PageAdmin)
+
+class StudentAdmin(ModelAdmin):
+    list_filter = ['classroom']
+
+site.register(Student, StudentAdmin)
+

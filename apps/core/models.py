@@ -9,6 +9,7 @@ import os
 import posixpath
 import re
 
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models import *
 
@@ -19,6 +20,7 @@ from config import PAGE_PATH
 from templatetags.docutils_extensions.writers import rst2xml
 
 from utils import get_choices_from_path
+
 
 class Classroom(Model):
     slug = SlugField(max_length=64,unique=True)
@@ -325,4 +327,31 @@ class Page(Model):
         
     class Meta:
         ordering = ['url']
+
+
+class Student(Model):
+    classroom = ForeignKey(Classroom)
+    user = ForeignKey(User)
+
+    @property
+    def last_name(self):
+        return self.user.last_name
+
+    @property
+    def first_name(self):
+        return self.user.first_name
+
+    @property
+    def full_name(self):
+        return '{self.last_name}, {self.first_name}'.format(self=self)
+
+    @property
+    def csv(self):
+        return ','.join([self.user.username, self.last_name, self.first_name])
+
+    def __unicode__(self):
+        return '{self.full_name} in {self.classroom}'.format(self=self)
+
+    class Meta:
+        ordering = ['user__last_name', 'user__first_name']
 
