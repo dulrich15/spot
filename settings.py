@@ -17,7 +17,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.core',
-    'apps.grades',
+    'apps.gradebook',
 )
 
 ROOT_URLCONF = 'urls'
