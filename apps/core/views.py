@@ -90,8 +90,11 @@ def core_index(request):
         page = classroom.home_page
         return redirect('show_page', page.url)
     except:
-        context = { 'page': '/' }
-        template = 'core/page_404.html'
+        if request.user.is_staff:
+            return redirect('show_page', '/')
+        else:
+            context = { 'page': '/' }
+            template = 'core/page_404.html'
         return render_to_response(request, template, context)
 
 
