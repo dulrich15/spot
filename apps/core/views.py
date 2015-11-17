@@ -66,7 +66,8 @@ def get_page(url, request):
             for sibling in page.parent.children:
                 if access_level >= sibling.restriction_level:
                     # if page is a classroom, only show related classrooms
-                    if page.classroom is None or sibling.classroom is not None:
+                    # if page.classroom is None or sibling.classroom is not None:
+                    if 1==1: # no, show all ...
                         page.side_list.append(sibling)
 
             if page.series_member:
@@ -144,7 +145,6 @@ def show_page(request, url='/'):
             context = { 'page': url }
             template = 'core/page_404.html'
             return render_to_response(request, template, context)
-
 
     context = {
         'page' : page,

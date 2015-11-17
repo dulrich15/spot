@@ -46,7 +46,7 @@ $(document).keydown(function(e) {
         location.href='{% url 'print_page' page %}';
         e.preventDefault();
     }
-    if (key == 'f')
+    if (key == 'f' && !e.ctrlKey)
     {
         /* $("header").toggle(); */
         location.href='{% url 'show_full' page %}';
