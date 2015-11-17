@@ -215,7 +215,7 @@ def post_page(request):
     return redirect('root_page')
     
     
-def prnt_page(request, url=''):
+def print_page(request, url=''):
     page = get_page(url, request)
 
     context = {

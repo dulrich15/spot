@@ -14,7 +14,7 @@ urlpatterns = [
 
     url(r'^show(?P<url>(/([\w\-]+/)*))$', views.show_page, name='show_page'),
     url(r'^full(?P<url>(/([\w\-]+/)*))$', views.show_full, name='show_full'),
-    url(r'^prnt(?P<url>(/([\w\-]+/)*))$', views.prnt_page, name='prnt_page'),
+    url(r'^print(?P<url>(/([\w\-]+/)*))$', views.print_page, name='print_page'),
     url(r'^edit(?P<url>(/([\w\-]+/)*))$', views.edit_page, name='edit_page'),
     url(r'^post/$', views.post_page, name='post_page'),
 
