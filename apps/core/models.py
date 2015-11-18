@@ -8,6 +8,7 @@ import fnmatch
 import os
 import posixpath
 import re
+import shutil
 
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -321,6 +322,16 @@ class Page(Model):
         f.close
 
         super(Page, self).save(*args, **kwargs)
+
+
+    def delete(self, args=[], kwargs={}):
+#        fp = self.filepath
+#        if fp[1:] = '_':
+#            shutil.rmtree(fp[:-1])
+#        else:
+#            os.remove(fp)
+        super(Page, self).delete(*args, **kwargs)
+
 
     def __unicode__(self):
         return self.url
