@@ -325,11 +325,14 @@ class Page(Model):
 
 
     def delete(self, args=[], kwargs={}):
-#        fp = self.filepath
-#        if fp[1:] = '_':
-#            shutil.rmtree(fp[:-1])
-#        else:
-#            os.remove(fp)
+        fp = self.filepath
+        try:
+            if fp[-1:] == '_':
+                shutil.rmtree(fp[:-2])
+            else:
+                os.remove(fp)
+        except:
+            pass
         super(Page, self).delete(*args, **kwargs)
 
 
