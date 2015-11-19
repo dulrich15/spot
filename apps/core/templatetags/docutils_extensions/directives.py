@@ -254,8 +254,9 @@ class fig_directive(rst.Directive):
         if 'image' in self.options.keys():
             image = self.options['image']
 
-            if str(image).rsplit('.',1)[1] in ['png','jpg','gif','pdf']:
-
+            if '://' in image:
+                figtext = '\\url{{{0}}}'.format(image)
+            elif str(image).rsplit('.',1)[1] in ['png','jpg','gif','pdf']:
                 check_path = os.path.join(IMAGE_PATH, image)
                 check_path = os.path.normpath(check_path)
 
@@ -330,8 +331,15 @@ class fig_directive(rst.Directive):
                 figtext += '</div>\n'
 
             else:
-                print 'Could not locate "%s"' % check_path
-                figtext = '\n<div class="my-docutils-error">\n<p>Missing image</p>\n</div>\n'
+                if '://' in image:
+                    figtext = '<div class="my-docutils fig">\n'
+                    figtext += '<a href="{0}">\n'.format(image)
+                    figtext += '<img src="{0}">\n'.format(image)
+                    figtext += '</a>\n'
+                    figtext += '</div>\n'
+                else:
+                    print 'Could not locate "%s"' % check_path
+                    figtext = '\n<div class="my-docutils-error">\n<p>Missing image</p>\n</div>\n'
 
         else: # try to construct the image
             # Unlike a normal image, our reference will come from the content...

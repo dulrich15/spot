@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models import *
 
+from config import IMAGE_URL
 from config import BANNER_PATH
 from config import BANNER_URL
 from config import PAGE_PATH
@@ -139,6 +140,15 @@ class Page(Model):
         
         pattern = r'__ <<(/[^\s]+/)>>'
         content = re.sub(pattern, repl3, content)
+
+        def repl4(match):
+            page_url = match.group(1)
+            root_url = reverse('show_page', args=['/'])
+            anchor_link = os.path.abspath(os.path.join(IMAGE_URL, page_url))
+            return '__ {}'.format(anchor_link)
+        
+        pattern = r'__ !!([^\s]+)'
+        content = re.sub(pattern, repl4, content)
 
         def repl1(match):
             page_url = match.group(1)
