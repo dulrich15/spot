@@ -37,7 +37,7 @@ WORK_PATH = '' # right here...
 WORK_PATH = os.path.join(os.path.dirname(os.path.abspath( __file__ )), WORK_PATH)
 
 LATEX_WORK_PATH = os.path.join(WORK_PATH, 'latex', '_')
-MATHPLOTLIB_WORK_PATH = os.path.join(WORK_PATH, 'mathplotlib', '_')
+MATPLOTLIB_WORK_PATH = os.path.join(WORK_PATH, 'matplotlib', '_')
 
 def get_latex_path(filename):
     filename = filename.split(os.path.sep)
@@ -526,7 +526,7 @@ class plt_directive(rst.Directive):
             curdir = os.getcwd()
 
             # Write the matplotlib file to the temp folder
-            os.chdir(MATHPLOTLIB_WORK_PATH)
+            os.chdir(MATPLOTLIB_WORK_PATH)
             f = codecs.open('temp.py', 'w', 'utf-8')
             f.write(MATPLOTLIB_TEMPLATE % content)
             f.close()
@@ -729,7 +729,7 @@ class ani_directive(rst.Directive):
             curdir = os.getcwd()
 
             # Write the matplotlib file to the temp folder
-            os.chdir(MATHPLOTLIB_WORK_PATH)
+            os.chdir(MATPLOTLIB_WORK_PATH)
             if os.path.isfile('temp.mp4'):
                 os.remove('temp.mp4')
 
