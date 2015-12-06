@@ -738,7 +738,7 @@ class ani_directive(rst.Directive):
             f.close()
 
             # Run matplotlib ...
-            cmd = [settings.PYTHON_CMD, 'temp.py']
+            cmd = [PYTHON_CMD, 'temp.py']
             p = Popen(cmd,stdout=PIPE,stderr=PIPE)
             out, err = p.communicate()
 

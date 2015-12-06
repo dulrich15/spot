@@ -1,0 +1,18 @@
+{% load restructuredtext_tags %}
+\documentclass{article}
+
+{% include 'core/print_front_matter.tex' %}
+
+\begin{document}
+
+{\LARGE \sf {{ page.title|rst2latex }} }
+{% if page.subtitle %}
+{\small \sf {{ page.subtitle|rst2latex }} }
+{% endif %}
+
+\vspace{5mm}
+
+{{ page.content|rst2latex }}
+
+\end{document}
+

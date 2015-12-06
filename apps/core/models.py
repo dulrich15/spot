@@ -93,6 +93,7 @@ print_template_choices = [
     ('print_book2.tex','Book2'),
     ('print_exam.tex','Exam'),
     ('print_equipment_form.tex','Equipment'),
+    ('print_plain.tex','Plain'),
 ]
 access_level_choices = [
     (0,'Public'),
