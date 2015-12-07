@@ -1,0 +1,32 @@
+{% extends "core/page_layout.html" %}
+{% load restructuredtext_tags %}
+
+{% block title %}{{ classroom.title }}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
+    <script src="{{ STATIC_URL }}core/js/show.js"></script>
+{% endblock %}
+
+{% block header %}
+{% include "core/show_classroom_header.html" %}
+{% endblock %}
+
+{% block content %}
+<h2>Students</h2>
+{% if classroom.student_set.all %}
+<ol>
+    {% for student in classroom.student_set.all %}
+    <li>{{ student.full_name }}</li>
+    {% endfor %}
+</ol>
+{% else %}
+<p>No students assigned.</p>
+{% endif %}
+{% endblock %}
+
+{% block main_content %}
+{% endblock %}
+
+{% block side_content %}
+{% endblock %}

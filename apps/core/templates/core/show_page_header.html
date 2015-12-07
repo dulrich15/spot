@@ -1,11 +1,9 @@
 {% load restructuredtext_tags %}
 
 {% if page.classroom %}
-<a class="hoverlink" href="{% url 'show_page' page.classroom.home_page %}">
-<h1 id="title">{{ page.classroom.title|rst2html_inline }}</h1>
-{% if page.classroom.banner %}<img src="{{ page.classroom.banner.url }}">{% endif %}
-</a>
-<p id="subtitle">{{ page.classroom.subtitle|rst2html_inline }}</p>
+{% with page.classroom as classroom %}
+{% include 'core/show_classroom_header.html' %}
+{% endwith %}
 {% if page.children or page.series or page.siblings or page.parent %}
 {% if page.content %}
 <p class="full-hide"><a class="block-link noprint" href="#related-pages">Skip down to page navigation</a></p>

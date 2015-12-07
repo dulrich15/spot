@@ -3,8 +3,6 @@
 
 {% include 'core/print_front_matter.tex' %}
 
-\makeindex
-
 \begin{document}
 
 {% include 'core/print_page_header.tex' %}
@@ -25,7 +23,5 @@
 
 {{ subpage.content|rst2latex:1 }}
 {% endfor %}
-
-\printindex
 
 \end{document}

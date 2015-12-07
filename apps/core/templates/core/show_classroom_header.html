@@ -1,0 +1,7 @@
+{% load restructuredtext_tags %}
+
+<a class="hoverlink" href="{% url 'show_page' classroom.home_page %}">
+<h1 id="title">{{ classroom.title|rst2html_inline }}</h1>
+{% if classroom.banner %}<img src="{{ classroom.banner.url }}">{% endif %}
+</a>
+<p id="subtitle">{{ classroom.subtitle|rst2html_inline }}</p>

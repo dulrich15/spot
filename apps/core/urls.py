@@ -19,4 +19,8 @@ urlpatterns = [
     url(r'^post/$', views.post_page, name='post_page'),
 
     url(r'^full(?P<url>(/([\w\-]+/)*))$', views.show_full, name='show_full'),
+
+    url(r'^students/(\w+)/$', views.list_students, name='list_students'),
+
+
 ]

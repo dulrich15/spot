@@ -239,3 +239,24 @@ def print_page(request, url=''):
 def show_full(request, url):
     request.session['show_full'] = not(request.session.get('show_full', False))
     return redirect('show_page', url)
+
+
+def list_students(request, classroom_slug):
+    if not request.user.is_staff:
+        return redirect('show_page', classroom_slug)
+
+    if 1==1: # try:
+        classroom = Classroom.objects.get(slug=classroom_slug)
+    #except:
+    #    return redirect('core_index')
+
+    context = {
+        'classroom': classroom,
+        'bg_color': get_bg_color(request),
+    }
+    template = 'core/list_students.html'
+
+    c = RequestContext(request, context)
+    t = loader.get_template(template)
+
+    return HttpResponse(t.render(c))
