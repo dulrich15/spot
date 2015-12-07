@@ -21,6 +21,6 @@ urlpatterns = [
     url(r'^full(?P<url>(/([\w\-]+/)*))$', views.show_full, name='show_full'),
 
     url(r'^students/(\w+)/$', views.list_students, name='list_students'),
-
-
+    url(r'^students/(\w+)/edit/$', views.edit_student_list, name='edit_student_list'),
+    url(r'^students/(\w+)/post/$', views.post_student_list, name='post_student_list'),
 ]

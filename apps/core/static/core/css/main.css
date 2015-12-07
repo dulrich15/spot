@@ -61,15 +61,12 @@ li {
 }
 
 #site_messages {
-    position:absolute;
-    top:0;
-    right:0;
     padding:0 0.5em;
-    margin:0;
+    margin:1em 0;
     list-style-type:none;
 }
 #site_messages li {
-    padding:0.5em 2em;
+    padding:0.5em;
     border:1px solid red;
     background:#FFCCCC;
     cursor:pointer;

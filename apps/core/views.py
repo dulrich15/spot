@@ -3,9 +3,12 @@ from __future__ import unicode_literals
 
 import codecs
 import os
+import re
 
+from django.contrib import messages
 from django.contrib.auth import logout as logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.signals import user_logged_in
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -32,6 +35,7 @@ def get_bg_color(request):
         return '#ffffe0'
     else:
         return '#ffffff'
+
 
 def get_restriction_level(request):
     if request.user.is_staff:
@@ -85,11 +89,25 @@ def get_page(url, request):
     return page
 
 
+def logged_in_message(sender, user, request, **kwargs):
+    messages.info(request, "Hi {}, you are now logged in.".format(request.user.first_name, request.user.username))
+user_logged_in.connect(logged_in_message)
+
+
+def core_logout(request):
+    logout(request)
+    if 'next' in request.GET:
+        return redirect(request.GET['next'])
+    else:
+        return redirect('page_root')
+
+
 def core_index(request):
     try:
         classroom = Classroom.objects.filter(is_active=True).order_by('-first_date')[0]
         page = classroom.home_page
         return redirect('show_page', page.url)
+
     except:
         if request.user.is_staff:
             return redirect('show_page', '/')
@@ -117,14 +135,6 @@ def list_classrooms(request):
     t = loader.get_template(template)
     
     return HttpResponse(t.render(c))
-
-
-def core_logout(request):
-    logout(request)
-    if 'next' in request.GET:
-        return redirect(request.GET['next'])
-    else:
-        return redirect('page_root')
 
 
 def show_page(request, url='/'):
@@ -245,10 +255,10 @@ def list_students(request, classroom_slug):
     if not request.user.is_staff:
         return redirect('show_page', classroom_slug)
 
-    if 1==1: # try:
+    try:
         classroom = Classroom.objects.get(slug=classroom_slug)
-    #except:
-    #    return redirect('core_index')
+    except:
+        return redirect('core_index')
 
     context = {
         'classroom': classroom,
@@ -260,3 +270,77 @@ def list_students(request, classroom_slug):
     t = loader.get_template(template)
 
     return HttpResponse(t.render(c))
+
+
+def edit_student_list(request, classroom_slug):
+    if not request.user.is_staff:
+        return redirect('show_page', classroom_slug)
+
+    try:
+        classroom = Classroom.objects.get(slug=classroom_slug)
+    except:
+        return redirect('core_index')
+
+    students = Student.objects.filter(classroom=classroom)
+    student_list_csv = ''
+    for student in students:
+        student_csv = ','.join([student.last_name,student.first_name,''])
+        student_list_csv += student_csv + '\n'
+
+    context = {
+        'student_list_csv': student_list_csv,
+        'classroom': classroom,
+        'bg_color': get_bg_color(request),
+    }
+    template = 'core/edit_student_list.html'
+
+    c = RequestContext(request, context)
+    t = loader.get_template(template)
+
+    return HttpResponse(t.render(c))
+
+
+def post_student_list(request, classroom_slug):
+    if not request.user.is_staff:
+        return redirect('show_page', classroom_slug)
+
+    try:
+        classroom = Classroom.objects.get(slug=classroom_slug)
+    except:
+        return redirect('core_index')
+
+    students = Student.objects.filter(classroom=classroom)
+
+    if 'submit' in request.POST:
+
+        for student in students: # really should only delete those not in POST...
+            student.delete()
+
+        student_list = request.POST['student_list_csv'].splitlines()
+        for line in student_list:
+            [last_name, first_name, password] = [x.strip() for x in line.split(',')]
+
+            username = first_name[0].lower()
+            username += re.sub(r'[^a-z]', '', last_name.lower())[:7]
+
+            try:
+                student_user = User.objects.get(username=username)
+            except:
+                student_user = User()
+                student_user.username = username
+                student_user.last_name = last_name
+                student_user.first_name = first_name
+                student_user.set_password(password)
+                student_user.save()
+
+            student = Student()
+            student.classroom = classroom
+            student.user = student_user
+            student.save()
+
+            student_user.first_name = first_name
+            student_user.last_name = last_name
+            student_user.save()
+
+    return redirect('list_students', classroom_slug)
+

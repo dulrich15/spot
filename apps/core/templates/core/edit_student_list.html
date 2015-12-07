@@ -1,0 +1,29 @@
+{% extends "core/page_layout.html" %}
+{% load restructuredtext_tags %}
+
+{% block title %}{{ classroom.title }}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/css/show.css">
+    <script src="{{ STATIC_URL }}core/js/show.js"></script>
+{% endblock %}
+
+{% block header %}
+{% include "core/show_classroom_header.html" %}
+{% endblock %}
+
+{% block content %}
+<h2>Edit Student List</h2>
+<p>Paste in a comma delimited file: ID, Last Name, First Name</p>
+
+<form action="{% url 'post_student_list' classroom.slug %}" method="post">
+    <p>
+        <textarea name="student_list_csv" cols=80 rows=30>{{ student_list_csv }}</textarea>
+    </p>
+    <p>
+        <input type="submit" name="submit" value="Submit">
+        <input type="submit" name="cancel" value="Cancel">
+    </p>
+    {% csrf_token %}
+</form>
+{% endblock %}

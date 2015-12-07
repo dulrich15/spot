@@ -371,10 +371,6 @@ class Student(Model):
     def full_name(self):
         return '{self.last_name}, {self.first_name}'.format(self=self)
 
-    @property
-    def csv(self):
-        return ','.join([self.user.username, self.last_name, self.first_name])
-
     def __unicode__(self):
         return '{self.full_name} in {self.classroom}'.format(self=self)
 

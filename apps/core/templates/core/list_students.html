@@ -17,7 +17,7 @@
 {% if classroom.student_set.all %}
 <ol>
     {% for student in classroom.student_set.all %}
-    <li>{{ student.full_name }}</li>
+    <li>{{ student.full_name }} ({{ student.user.username }})</li>
     {% endfor %}
 </ol>
 {% else %}
