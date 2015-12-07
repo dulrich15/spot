@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^index/$', TemplateView.as_view(template_name='website_index.html')),
     url(r'^', include('apps.core.urls')),
+    url(r'^', include('apps.roster.urls')),
 ]

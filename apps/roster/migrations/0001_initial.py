@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('earned_points', models.PositiveSmallIntegerField(default=0)),
                 ('extra_points', models.PositiveSmallIntegerField(default=0)),
                 ('is_excused', models.BooleanField(default=False)),
-                ('assignment', models.ForeignKey(to='gradebook.Assignment')),
+                ('assignment', models.ForeignKey(to='roster.Assignment')),
                 ('student', models.ForeignKey(to='core.Student')),
             ],
             options={
@@ -68,13 +68,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='assignmentcategory',
             name='scheme',
-            field=models.ForeignKey(to='gradebook.GradeScheme'),
+            field=models.ForeignKey(to='roster.GradeScheme'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='assignment',
             name='category',
-            field=models.ForeignKey(to='gradebook.AssignmentCategory'),
+            field=models.ForeignKey(to='roster.AssignmentCategory'),
             preserve_default=True,
         ),
         migrations.AddField(

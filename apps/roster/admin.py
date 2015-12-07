@@ -2,6 +2,11 @@ from django.contrib.admin import *
 from models import *
 
 
+class StudentAdmin(ModelAdmin):
+    list_filter = ['classroom']
+
+site.register(Student, StudentAdmin)
+
 site.register(AssignmentCategory)
 
 class AssignmentAdmin(ModelAdmin):

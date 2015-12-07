@@ -23,8 +23,3 @@ class PageAdmin(ModelAdmin):
 
 site.register(Page, PageAdmin)
 
-class StudentAdmin(ModelAdmin):
-    list_filter = ['classroom']
-
-site.register(Student, StudentAdmin)
-
