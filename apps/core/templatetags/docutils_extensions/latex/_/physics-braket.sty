@@ -1,0 +1,123 @@
+\ProvidesPackage{physics-braket}
+% physics 1.3
+% This material is subject to the LaTeX Project Public License.
+% See http://www.ctan.org/tex-archive/help/Catalogue/licenses.lppl.html for the details of that license.
+%
+% Handy commands for physicists including macros for vectors, calculus, matrices, and bra-ket (Dirac) notation
+% Requires xparse package, which comes bundled with l3packages and l3kernel
+% This package loads amsmath, which comes standard with most latex distributions
+% The commands defined in this package will silently overwrite previous commands with the same name, if such commands exist
+%
+% Created by Sergio C. de la Barrera
+% Updated on December 12, 2012
+% Uploaded on December 20, 2012
+
+\RequirePackage{xparse}
+\RequirePackage{amsmath}
+
+% Bra-ket notation
+\DeclareDocumentCommand\bra{ s m t\ket s g }
+{ % Bra
+	\IfBooleanTF{#3}
+	{ % Contraction
+		\IfBooleanTF{#1}
+		{ % Bra has a star: no resize
+			\IfNoValueTF{#5}
+			{\braket*{#2}{} \IfBooleanTF{#4}{*}{}}
+			{\braket*{#2}{#5}}
+		}
+		{
+			\IfBooleanTF{#4}
+			{ % Ket has a star: no resize
+				\IfNoValueTF{#5}
+				{\braket{#2}{} *}
+				{\braket*{#2}{#5}}
+			}
+			{\braket{#2}{\IfNoValueTF{#5}{}{#5}}} % Neither term is starred: auto sizing
+		}
+	}
+	{ % No contraction
+		\IfBooleanTF{#1}
+		{\vphantom{#2}\left\langle\smash{#2}\right\rvert}
+		{\left\langle{#2}\right\rvert}
+		\IfBooleanTF{#4}{*}{}
+		\IfNoValueTF{#5}{}{#5}
+	}
+}
+
+\DeclareDocumentCommand\ket{ s m }
+{ % Ket
+	\IfBooleanTF{#1}
+	{\vphantom{#2}\left\lvert\smash{#2}\right\rangle} % No resize
+	{\left\lvert{#2}\right\rangle} % Auto sizing
+}
+
+\DeclareDocumentCommand\innerproduct{ s m g }
+{ % Inner product
+	\IfBooleanTF{#1}
+	{ % No resize
+		\IfNoValueTF{#3}
+		{\vphantom{#2}\left\langle\smash{#2}\middle\vert\smash{#2}\right\rangle}
+		{\vphantom{#2#3}\left\langle\smash{#2}\middle\vert\smash{#3}\right\rangle}
+	}
+	{ % Auto resize
+		\IfNoValueTF{#3}
+		{\left\langle{#2}\middle\vert{#2}\right\rangle}
+		{\left\langle{#2}\middle\vert{#3}\right\rangle}
+	}
+}
+\DeclareDocumentCommand\braket{}{\innerproduct} % Alternative for \innerproduct
+\DeclareDocumentCommand\ip{}{\innerproduct} % Shorthand for \innerproduct
+	
+\DeclareDocumentCommand\outerproduct{ s m g }
+{ % Dyad
+	\IfBooleanTF{#1}
+	{ % No resize
+		\IfNoValueTF{#3}
+		{\vphantom{#2}\left\lvert\smash{#2}\middle\rangle\!\middle\langle\smash{#2}\right\rvert}
+		{\vphantom{#2#3}\left\lvert\smash{#2}\middle\rangle\!\middle\langle\smash{#3}\right\rvert}
+	}
+	{ % Auto resize
+		\IfNoValueTF{#3}
+		{\left\lvert{#2}\middle\rangle\!\middle\langle{#2}\right\rvert}
+		{\left\lvert{#2}\middle\rangle\!\middle\langle{#3}\right\rvert}
+	}
+}
+\DeclareDocumentCommand\dyad{}{\outerproduct} % Alternative for \outerproduct
+\DeclareDocumentCommand\op{}{\dyad} % Shorthand for \outerproduct
+\DeclareDocumentCommand\ketbra{}{\dyad} % Alternative for \outerproduct
+
+\DeclareDocumentCommand\expectationvalue{ s s m g }
+{ % Expectation value
+	\IfNoValueTF{#4}
+	{
+		\IfBooleanTF{#1}
+		{\vphantom{#3}\left\langle\smash{#3}\right\rangle} % Starred implicit form: no resizing
+		{\left\langle{#3}\right\rangle} % Normal implicit form: auto sizing
+	}
+	{
+		\IfBooleanTF{#1}
+		{
+			\IfBooleanTF{#2}
+			{\left\langle{#4}\middle\vert{#3}\middle\vert{#4}\right\rangle} % Double starred explicit form: total auto sizing
+			{\vphantom{#3#4}\left\langle\smash{#4}\middle\vert\smash{#3}\middle\vert\smash{#4}\right\rangle} % Starred explicit form: no resizing
+		}
+		{\vphantom{#3}\left\langle{#4}\middle\vert\smash{#3}\middle\vert{#4}\right\rangle} % Normal explicit form: only resize based on bra/ket arguments
+	}
+}
+\DeclareDocumentCommand\expval{}{\expectationvalue} % Shorthand for \expectationvalue
+\DeclareDocumentCommand\ev{}{\expectationvalue} % Shorthand for \expectationvalue
+\DeclareDocumentCommand\vev{ m }{\expectationvalue{#1}{0}} % Vacuum expectation value
+
+\DeclareDocumentCommand\matrixelement{ s s m m m }
+{ % Matrix element
+	\IfBooleanTF{#1}
+	{
+		\IfBooleanTF{#2}
+		{\left\langle{#3}\middle\vert{#4}\middle\vert{#5}\right\rangle} % Double starred: total resizing
+		{\vphantom{#3#4#5}\left\langle\smash{#3}\middle\vert\smash{#4}\middle\vert\smash{#5}\right\rangle} % Starred: no resizing
+	}
+	{\vphantom{#4}\left\langle{#3}\middle\vert\smash{#4}\middle\vert{#5}\right\rangle} % Normal: only resize based on bra/ket arguments
+}
+\DeclareDocumentCommand\matrixel{}{\matrixelement} % Shorthand for \matrixelement
+\DeclareDocumentCommand\mel{}{\matrixelement} % Shorthand for \matrixelement

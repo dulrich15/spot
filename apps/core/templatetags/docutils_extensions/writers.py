@@ -67,6 +67,7 @@ def rst2xml(source, part='whole'):
 
 
 def rst2html(source, initial_header_level=2, inline=False, part='body'):
+    
     source = '.. default-role:: math\n\n' + source
     writer_name = 'html'        
     settings_overrides = {
