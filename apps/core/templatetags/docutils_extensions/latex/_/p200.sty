@@ -144,6 +144,7 @@
 \newcommand{\vmag}[1]{\text{mag} \; \vect{#1}}
 \newcommand{\vang}[1]{\text{ang} \; \vect{#1}}
 
+
 \DeclareMathOperator{\real}{Re}
 \DeclareMathOperator{\imag}{Im}
 \DeclareMathOperator{\grad}{\nabla}
@@ -152,6 +153,19 @@
 %\DeclareMathOperator{\grad}{grad}
 %\DeclareMathOperator{\vdiv}{div}
 %\DeclareMathOperator{\curl}{curl}
+
+\renewcommand{\LL}{\mathcal{L}}
+\renewcommand{\HH}{\mathcal{H}}
+\renewcommand{\AA}{\mathcal{A}}
+\renewcommand{\MM}{\mathcal{M}}
+\renewcommand{\DD}{\mathcal{D}}
+\renewcommand{\SS}{\mathcal{S}}
+\renewcommand{\OO}{\mathcal{O}}
+\renewcommand{\PP}{\mathcal{P}}
+
+\newcommand{\GP}{\mathbb{G}^2}
+\newcommand{\GA}{\mathbb{G}^3}
+\newcommand{\STA}{\mathbb{G}^4}
 
 
 %% The following just because I prefer the math font...
@@ -351,9 +365,9 @@
     \csname DUadmonition#1\endcsname{#2}%%
   \else
     \begin{center}
-      \fbox{\parbox{1.0\textwidth}{%%
+      \fbox{\parbox{1.0\linewidth}{%%
         \centering%%
-        \begin{minipage}{0.97\textwidth}
+        \begin{minipage}{0.97\linewidth}
         \setlength\parskip{0.1in}
         #2
         \vspace{1.5ex}
@@ -408,4 +422,21 @@
     \fi%%
   \fi%%
 }
+
+
+% lineblock environment
+%\DUprovidelength{\DUlineblockindent}{2.5em}
+%\ifthenelse{\isundefined{\DUlineblock}}{
+  \newenvironment{DUlineblock}[1]{%
+    \list{}{\setlength{\partopsep}{\parskip}
+            \addtolength{\partopsep}{\baselineskip}
+            \setlength{\topsep}{0pt}
+            \setlength{\itemsep}{0.15\baselineskip}
+            \setlength{\parsep}{0pt}
+            \setlength{\leftmargin}{#1}}
+    \raggedright
+  }
+  {\endlist}
+%}
+
 

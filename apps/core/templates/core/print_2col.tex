@@ -1,0 +1,29 @@
+{% load restructuredtext_tags %}
+\documentclass[twocolumn]{article}
+
+\usepackage[margin=0.625in]{geometry}
+\usepackage{p200}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+
+\pagestyle{plain}
+
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\tabcolsep}{0.2cm}
+
+\begin{document}
+
+\twocolumn[
+\begin{@twocolumnfalse}
+{\LARGE {{ page.title|rst2latex }} }
+{% if page.subtitle %}
+\vspace{2mm}
+{\small {{ page.subtitle|rst2latex }} }
+{% endif %}
+\vspace{2cm}
+\end{@twocolumnfalse}
+]
+
+{{ page.content|rst2latex }}
+
+\end{document}
+

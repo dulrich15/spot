@@ -49,11 +49,13 @@ def get_latex_path(filename):
 
 FIG_TEMPLATE = {
 'default' : r'''
+\begin{figure}
 \begin{center}
 %(figtext)s
 %(caption)s
 %(label)s
 \end{center}
+\end{figure}
 '''
 ,
 'left' : r'''
@@ -256,7 +258,7 @@ class fig_directive(rst.Directive):
 
             if '://' in image:
                 figtext = '\\url{{{0}}}'.format(image)
-            elif str(image).rsplit('.',1)[1] in ['png','jpg','gif','pdf']:
+            elif str(image).rsplit('.',1)[1] in ['png','jpg','jpeg','gif','pdf']:
                 check_path = os.path.join(IMAGE_PATH, image)
                 check_path = os.path.normpath(check_path)
 

@@ -6,7 +6,10 @@
     <title>{% block title %}( default title ){% endblock %}</title>    
     
     <meta name="description" content="{% block meta_description %}{% endblock %}">
-	<meta name="viewport" content="width=device-width,initial-scale=1"> 
+    <meta name="viewport" content="width=device-width,initial-scale=1"> 
+    {% if bg_color %}
+    <meta name="theme-color" content="{{ bg_color }}">
+    {% endif %}
     
     <script src="{{ STATIC_URL }}core/js/jquery-1.8.3.min.js"></script>
     <script src="{{ STATIC_URL }}core/js/main.js"></script>

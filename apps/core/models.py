@@ -94,6 +94,7 @@ print_template_choices = [
     ('print_exam.tex','Exam'),
     ('print_equipment_form.tex','Equipment'),
     ('print_plain.tex','Plain'),
+    ('print_2col.tex','2col'),
 ]
 access_level_choices = [
     (0,'Public'),

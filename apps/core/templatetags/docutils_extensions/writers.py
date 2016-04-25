@@ -100,6 +100,7 @@ def rst2html(source, initial_header_level=2, inline=False, part='body'):
     
 
 def rst2latex(source, initial_header_level=-1, part='body'):
+    source = source.replace('\'"','\' "')
     source = '.. default-role:: math\n\n' + source
     writer = MyLatexWriter(initial_header_level)
     settings_overrides = {
@@ -112,5 +113,7 @@ def rst2latex(source, initial_header_level=-1, part='body'):
         settings_overrides=settings_overrides,
     )[part]
     latex = latex.replace('-{}','-') # unwind this manipulation from docutils
+    latex = latex.replace("' ''","'\\,''")
+    latex = latex.replace(" '"," `")
 
     return latex.strip()
