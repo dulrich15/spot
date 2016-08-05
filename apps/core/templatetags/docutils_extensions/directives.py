@@ -212,11 +212,12 @@ class fig_directive(rst.Directive):
     optional_arguments = 1
     final_argument_whitespace = True
     option_spec = {
-        'image'     : rst.directives.unchanged,
-        'scale'     : rst.directives.unchanged,
-        'label'     : rst.directives.unchanged,
-        'position'  : rst.directives.unchanged,
-        'offset'    : rst.directives.unchanged,
+        'image'       : rst.directives.unchanged,
+        'scale'       : rst.directives.unchanged,
+        'print-scale' : rst.directives.unchanged,
+        'label'       : rst.directives.unchanged,
+        'position'    : rst.directives.unchanged,
+        'offset'      : rst.directives.unchanged,
         }
     has_content = True
 
@@ -225,9 +226,14 @@ class fig_directive(rst.Directive):
         node_list = []
 
         try:
+            print_scale = float(self.options['print-scale'])
+        except:
+            print_scale = 0.00
+
+        try:
             scale = float(self.options['scale'])
         except:
-            scale = 1.00
+            scale = 0.00
 
         if 'position' in self.options.keys():
             position = self.options['position']
@@ -267,8 +273,15 @@ class fig_directive(rst.Directive):
 
                 latex_path = get_latex_path(check_path)
 
-                figtext = r'\includegraphics[scale=%s]{%s}'
-                figtext = figtext % (scale, latex_path)
+                if print_scale > 0:
+                    figtext = r'\includegraphics[scale=%s]{%s}'
+                    figtext = figtext % (print_scale, latex_path)
+                elif scale > 0:
+                    figtext = r'\includegraphics[scale=%s]{%s}'
+                    figtext = figtext % (print_scale, latex_path)
+                else:
+                    figtext = r'\includegraphics[width=\linewidth]{%s}'
+                    figtext = figtext % (latex_path)
                 if not label:
                     label = nodes.make_id(image)
                     label = r'\label{fig:%s}' % label
@@ -307,7 +320,11 @@ class fig_directive(rst.Directive):
 
             if os.path.exists(check_path):
                 img_width, img_height = Image.open(check_path).size
-                fig_width = int(img_width*scale*1.00)
+
+                if scale > 0:
+                    fig_width = int(img_width*scale)
+                else:
+                    fig_width = int(img_width)
 
                 if 'label' in self.options.keys():
                     label = nodes.make_id(self.options['label'])
@@ -416,7 +433,10 @@ class fig_directive(rst.Directive):
                 self.options['alt'] = self.content
 
                 img_width, img_height = Image.open(image_path).size
-                fig_width = int(img_width*scale*0.50)
+                if scale > 0:
+                    fig_width = int(img_width*scale*0.50)
+                else:
+                    fig_width = int(img_width*0.50)
 
                 if 'label' in self.options.keys():
                     label = nodes.make_id(self.options['label'])
