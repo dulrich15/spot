@@ -35,9 +35,9 @@
                     avg:        ["{\\langle #1 \\rangle}",1],
                     Avg:        ["{\\left \\langle #1 \\right \\rangle}",1],
                     pd:         ["{\\frac{\\partial{#1}}{\\partial{#2}}}",2],
-                    pdd:        ["{\\frac{\\partial{#1}^2}{\\partial{#2}^2}}",2],
+                    pdd:        ["{\\frac{\\partial^2{#1}}{\\partial{#2}^2}}",2],
                     tpd:        ["{\\partial{#1} / \\partial{#2}}",2],
-                    tpdd:       ["{\\partial{#1}^2 / \\partial{#2}^2}",2],
+                    tpdd:       ["{\\partial^2{#1} / \\partial{#2}^2}",2],
                     real:       "{\\text{Re}}",
                     grad:       "{\\nabla}",
                     vdiv:       "{\\nabla \\cdot}",
@@ -56,12 +56,14 @@
                     DD:         "{\\mathcal{D}}",
                     SS:         "{\\mathcal{S}}",
                     OO:         "{\\mathcal{O}}",
-                    slashed:    ["{\\not{\\!#1}}",1],
+                    slashed:    ["{\\not{\\!\\!{#1}}}",1],
+                    fsl:        ["{\\!\\not{\\phantom{#1}}#1}",1],
                     vvect:      ["\\overset{\\text{$\\tiny\\leftrightarrow$}}{#1}",1],
                     bvect:      ["\\overset{\\text{$\\tiny\\leftarrow$}}{#1}",1],
                     GP:         "{\\mathbb{G}^2}",
                     GA:         "{\\mathbb{G}^3}",
-                    STA:        "{\\mathbb{G}^4}"
+                    STA:        "{\\mathbb{G}^4}",
+                    Tr:         "{\\text{Tr}}"
                 }
             }
         });

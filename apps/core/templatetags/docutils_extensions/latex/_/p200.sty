@@ -39,7 +39,7 @@
 %\usepackage{braket}
 %\usepackage{physics} % this package breaks when using \exp ???
 \usepackage{physics-braket}
-\usepackage{simplewick}
+\usepackage{simpler-wick}
 
 
 
@@ -137,6 +137,8 @@
 \newcommand{\vhat}[1]{\hat{\bm{#1}}}
 \newcommand{\pd}[2]{\frac{\partial{#1}}{\partial{#2}}}
 \newcommand{\pdd}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\tpd}[2]{\partial{#1}/\partial{#2}}
+\newcommand{\tpdd}[2]{\partial^2{#1}/\partial{#2}^2}
 \newcommand{\half}{\tfrac{1}{2}}
 \newcommand{\dg}{^\circ}
 \newcommand{\ohm}{\Omega}
@@ -151,11 +153,13 @@
 \DeclareMathOperator{\real}{Re}
 \DeclareMathOperator{\imag}{Im}
 \DeclareMathOperator{\grad}{\nabla}
+\DeclareMathOperator{\grad}{\nabla}
 \DeclareMathOperator{\vdiv}{\nabla \cdot}
 \DeclareMathOperator{\curl}{\nabla \times}
 %\DeclareMathOperator{\grad}{grad}
 %\DeclareMathOperator{\vdiv}{div}
 %\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\Tr}{Tr}
 
 \renewcommand{\LL}{\mathcal{L}}
 \renewcommand{\HH}{\mathcal{H}}
@@ -169,6 +173,9 @@
 \newcommand{\GP}{\mathbb{G}^2}
 \newcommand{\GA}{\mathbb{G}^3}
 \newcommand{\STA}{\mathbb{G}^4}
+
+\newcommand{\slashed}[1]{\not{\!\!{#1}}}
+\newcommand{\fsl}[1]{\ensuremath{{\!\not{\phantom{#1}}}#1}}
 
 
 %% The following just because I prefer the math font...
