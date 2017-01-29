@@ -228,12 +228,12 @@ class fig_directive(rst.Directive):
         try:
             print_scale = float(self.options['print-scale'])
         except:
-            print_scale = 0.00
+            print_scale = 1.00
 
         try:
             scale = float(self.options['scale'])
         except:
-            scale = 0.00
+            scale = 1.00
 
         if 'position' in self.options.keys():
             position = self.options['position']

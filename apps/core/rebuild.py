@@ -47,4 +47,7 @@ def rebuild(wipe_sysgen=False):
     for url in sorted(url_list):
         print 'Creating: ', url
         page = Page(url=url)
-        page.update()
+        try:
+            page.update()
+        except:
+            pass
